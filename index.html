@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>中國歷史測驗 · 中一第一冊</title>
+<style>
+:root{
+  --ink:#2b2118; --card:#fff8ef; --good:#2f9e44; --bad:#c92a2a; --gold:#e67700;
+  --scroll:#f3e5c2; --cinnabar:#c92a2a; --bronze:#8b6914; --inkblack:#1a120b;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;min-height:100%;font-family:"PingFang HK","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;
+  background:
+    radial-gradient(ellipse at 20% 0%,rgba(201,166,107,.35),transparent 50%),
+    radial-gradient(ellipse at 80% 100%,rgba(139,69,19,.4),transparent 45%),
+    linear-gradient(180deg,#3d2914 0%,#5c3d1e 25%,#8b4513 55%,#2b1810 100%);
+  color:#fff8ef;overscroll-behavior:none}
+body{min-height:100dvh;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+header{max-width:1100px;margin:0 auto;padding:14px 16px 0}
+header h1{margin:0;font-size:clamp(20px,5.2vw,32px);letter-spacing:.04em;text-shadow:0 3px 0 rgba(0,0,0,.35),0 8px 20px rgba(0,0,0,.35);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+header h1 .badge{font-size:12px;background:linear-gradient(180deg,#ffe8a3,#e67700);color:#3d2914;padding:4px 10px;border-radius:999px;border:2px solid #c92a2a;box-shadow:0 3px 0 #7a1c1c;font-weight:800}
+header p{margin:8px 0 0;font-size:14px;line-height:1.55;color:#f3e5c2;max-width:860px;text-shadow:0 1px 2px rgba(0,0,0,.35)}
+.topbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.chip{background:rgba(243,229,194,.18);backdrop-filter:blur(6px);border:2px solid rgba(243,229,194,.45);border-radius:999px;padding:8px 14px;font-weight:800;font-size:13px;box-shadow:0 3px 0 rgba(0,0,0,.2)}
+#home{max-width:1100px;margin:0 auto;padding:12px 16px 48px}
+.hero{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin:8px 0 16px;padding:14px 16px;border-radius:20px;
+  background:linear-gradient(135deg,rgba(243,229,194,.28),rgba(139,69,19,.25));
+  border:3px solid rgba(243,229,194,.55);box-shadow:0 10px 0 rgba(0,0,0,.2),0 18px 40px rgba(0,0,0,.25)}
+.mascot{width:72px;height:72px;font-size:56px;line-height:1;filter:drop-shadow(0 8px 12px rgba(0,0,0,.35));animation:bob 2.2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.hero h2{margin:0 0 4px;font-size:clamp(17px,4vw,22px);text-shadow:0 2px 0 rgba(0,0,0,.25)}
+.hero p{margin:0;font-size:13.5px;line-height:1.5;color:#fff8ef}
+.mode-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin:0 0 18px}
+.mode-card{border:none;cursor:pointer;touch-action:manipulation;font-family:inherit;text-align:left;padding:16px 14px;border-radius:18px;color:#fff;font-weight:900;
+  box-shadow:0 8px 0 rgba(0,0,0,.28),0 14px 28px rgba(0,0,0,.22);transition:transform .12s,box-shadow .12s;min-height:110px;
+  background:linear-gradient(165deg,rgba(255,248,239,.35),rgba(0,0,0,.15));border:3px solid rgba(243,229,194,.55)}
+.mode-card:active,.unit-card:active,.lesson-btn:active{transform:translateY(4px);box-shadow:0 3px 0 rgba(0,0,0,.28)}
+.mode-card .emo{font-size:28px;display:block;margin-bottom:4px}
+.mode-card .ttl{font-size:16px;text-shadow:0 2px 0 rgba(0,0,0,.25)}
+.mode-card .meta{margin-top:6px;font-size:12px;opacity:.92;font-weight:700;line-height:1.4}
+.unit-block{margin:0 0 18px}
+.unit-block h3{margin:0 0 10px;font-size:15px;display:inline-flex;align-items:center;gap:8px;background:rgba(0,0,0,.28);padding:6px 14px;border-radius:999px;border:2px solid rgba(243,229,194,.35)}
+.island-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.unit-card,.lesson-btn{position:relative;border:none;cursor:pointer;touch-action:manipulation;font-family:inherit;text-align:left;padding:14px 12px 16px;border-radius:18px;color:#fff;font-weight:900;
+  box-shadow:0 8px 0 rgba(0,0,0,.28),0 14px 28px rgba(0,0,0,.22);min-height:118px;
+  background:linear-gradient(165deg,rgba(255,248,239,.35),rgba(0,0,0,.15));border:3px solid rgba(243,229,194,.55)}
+.unit-card{min-height:130px}
+.unit-card .emo,.lesson-btn .emo{font-size:28px;display:block;margin-bottom:4px}
+.unit-card .ttl,.lesson-btn .ttl{font-size:14px;line-height:1.35;text-shadow:0 2px 0 rgba(0,0,0,.25)}
+.unit-card .meta,.lesson-btn .meta{margin-top:6px;font-size:11px;opacity:.92;font-weight:700}
+.opt-tag{display:inline-block;margin-top:4px;font-size:10px;background:#c92a2a;padding:2px 8px;border-radius:999px;border:1px solid #fff}
+.exam-tag{display:inline-block;margin-top:4px;font-size:10px;background:#e67700;padding:2px 8px;border-radius:999px;border:1px solid #fff;color:#3d2914;font-weight:900}
+.back-chip{margin:0 0 12px}
+.back-chip button,.snd-btn,button.nav{font-family:inherit;font-weight:800;cursor:pointer;touch-action:manipulation;border-radius:14px;border:2px solid #f3e5c2;background:linear-gradient(180deg,#fff8ef,#e8d5a8);color:#5c3d1e;padding:10px 14px;font-size:14px;box-shadow:0 3px 0 #8b6914}
+#panel{display:none;position:fixed;inset:0;z-index:40;background:rgba(26,18,11,.62);backdrop-filter:blur(3px);align-items:flex-start;justify-content:center;padding:8px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+#panel.show{display:flex;animation:fadeIn .2s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.card{width:100%;max-width:720px;margin:4px auto 20px;background:linear-gradient(180deg,#fffefb,#f3e5c2);color:var(--ink);border-radius:22px;padding:14px 14px 18px;position:relative;box-shadow:0 16px 0 rgba(0,0,0,.2),0 28px 60px rgba(0,0,0,.4);border:3px solid #fff8ef;animation:cardIn .32s cubic-bezier(.2,.9,.3,1);max-height:min(92dvh,900px);overflow-y:auto}
+@keyframes cardIn{from{transform:translateY(18px) scale(.96);opacity:0}to{transform:none;opacity:1}}
+.card::before{content:"";position:absolute;left:12px;right:12px;top:8px;height:6px;border-radius:999px;background:linear-gradient(90deg,#c92a2a,#e67700,#c9a66b,#8b6914,#5c3d1e)}
+.panel-top{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 8px;align-items:center}
+.panel-top button{border:2px solid #a89984;background:linear-gradient(180deg,#fff8ef,#e8d5a8);color:#3d2914;padding:10px 14px;font-size:14px;box-shadow:0 3px 0 #8b6914;font-family:inherit;font-weight:800;cursor:pointer;touch-action:manipulation;border-radius:14px}
+.panel-top button:active{transform:translateY(2px);box-shadow:0 1px 0 #8b6914}
+#ptitle{margin:4px 0 6px;font-size:clamp(16px,4vw,20px)}
+.subline{font-size:12.5px;color:#6b5428;font-weight:700;margin-bottom:8px}
+.score-pill{display:inline-flex;gap:8px;flex-wrap:wrap;margin:4px 0 8px}
+.score-pill span{background:#f3e5c2;border:2px solid #c9a66b;color:#5c3d1e;font-weight:900;font-size:12px;padding:4px 10px;border-radius:999px}
+.timer-box{margin:8px 0 12px;padding:12px;border-radius:14px;background:linear-gradient(180deg,#fff8ef,#f3e5c2);border:2px solid #c9a66b}
+.timer-box .row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.timer-box label{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;background:#fff;border:2px solid #e8d5a8;font-weight:800;font-size:13px;cursor:pointer;color:#5c3d1e}
+.timer-box label.on{background:#ffe8a3;border-color:#e67700}
+.timer-box input{accent-color:#e67700}
+.sample-box{margin:8px 0 12px;padding:12px;border-radius:14px;background:linear-gradient(180deg,#fff9db,#ffe8a3);border:2px solid #e67700}
+.sample-box .row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.sample-box label{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;background:#fff;border:2px solid #e8d5a8;font-weight:800;font-size:13px;cursor:pointer;color:#5c3d1e}
+.sample-box label.on{background:#ffe066;border-color:#c92a2a}
+.q-timer{margin:6px 0;padding:8px 12px;border-radius:12px;background:linear-gradient(180deg,#fff9db,#ffe066);border:2px solid #e67700;font-weight:900;color:#5c4800;display:flex;align-items:center;gap:10px}
+.q-timer.warn{background:linear-gradient(180deg,#fff5f5,#ffc9c9);border-color:#c92a2a;color:#c92a2a}
+.q-timer .secs{font-size:18px;min-width:2.6em}
+.q-timer .bar{flex:1;height:10px;background:rgba(0,0,0,.08);border-radius:999px;overflow:hidden}
+.q-timer .bar>i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#2f9e44,#e67700);transition:width .2s linear}
+.rule-box{margin:8px 0 12px;padding:12px;border-radius:14px;background:#fffaf0;border:2px solid #e8d5a8;font-size:13.5px;line-height:1.55;font-weight:700;color:#3d2914}
+.task-card{margin:6px 0 10px;padding:12px 14px;border-radius:16px;background:linear-gradient(180deg,#fff,#fff8e7);border:3px solid #e67700;box-shadow:0 4px 0 #c92a2a}
+.task-card .mission{font-size:12px;font-weight:900;color:#c92a2a;letter-spacing:.04em;margin-bottom:4px}
+.task-card .q{font-size:clamp(15px,4vw,18px);line-height:1.45;font-weight:900;margin:0;color:var(--ink)}
+.src-tag,.sec-tag{display:inline-block;font-size:11px;font-weight:800;padding:3px 8px;border-radius:999px;margin-right:6px}
+.src-tag{background:#fff3bf;color:#5c4800;border:1px solid #e67700}
+.sec-tag{background:#f3e5c2;color:#5c3d1e;border:1px solid #c9a66b}
+.opt{display:block;width:100%;text-align:left;margin:8px 0 0;padding:14px 14px;font-size:15px;font-weight:800;font-family:inherit;border-radius:14px;border:3px solid #c9a66b;background:linear-gradient(180deg,#fff,#fff8ef);color:var(--ink);cursor:pointer;touch-action:manipulation;box-shadow:0 4px 0 #8b6914}
+.opt:active{transform:translateY(2px);box-shadow:0 1px 0 #8b6914}
+.opt.picked{outline:3px solid #e67700}
+.opt.good{background:linear-gradient(180deg,#d3f9d8,#8ce99a)!important;border-color:#2f9e44;box-shadow:0 4px 0 #2f9e44}
+.opt.bad{background:linear-gradient(180deg,#ffe3e3,#ffa8a8)!important;border-color:#c92a2a;box-shadow:0 4px 0 #c92a2a}
+.opt.exam-start{background:linear-gradient(180deg,#ffe8a3,#e67700);border-color:#c92a2a;color:#3d2914;box-shadow:0 5px 0 #7a1c1c;text-align:center;font-size:17px}
+.opt:disabled{opacity:.7;cursor:not-allowed}
+.input-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.input-row input{flex:1 1 160px;font-size:17px;padding:12px 14px;border-radius:12px;border:3px solid #e67700;font-family:inherit;font-weight:700;color:var(--ink)}
+button.go{display:block;width:100%;text-align:center;margin:10px 0 0;padding:14px;font-size:17px;border:3px solid #c92a2a;background:linear-gradient(180deg,#ffe8a3,#e67700);color:#3d2914;box-shadow:0 5px 0 #7a1c1c;font-family:inherit;font-weight:900;cursor:pointer;touch-action:manipulation;border-radius:14px}
+button.go:active{transform:translateY(3px);box-shadow:0 1px 0 #7a1c1c}
+button:disabled{opacity:.55;cursor:not-allowed}
+#why{min-height:22px;font-weight:800;color:#3d2914;margin-top:8px;font-size:14px}
+#fx{pointer-events:none;position:absolute;inset:0;overflow:hidden;z-index:5}
+#fx .bit{position:absolute;top:-16px;font-size:22px;animation:confetti 1.4s ease-out forwards;opacity:0}
+@keyframes confetti{0%{opacity:0;transform:translateY(0) rotate(0)}15%{opacity:1}100%{opacity:0;transform:translateY(120px) rotate(240deg)}}
+.praise{pointer-events:none;position:absolute;left:50%;top:8%;transform:translateX(-50%) scale(.7);z-index:8;text-align:center;min-width:55%;animation:praisePop 1.7s cubic-bezier(.2,1.2,.3,1) forwards;opacity:0}
+.praise .emoji{display:block;font-size:clamp(34px,9vw,52px);filter:drop-shadow(0 6px 10px rgba(0,0,0,.25))}
+.praise .text{display:inline-block;background:linear-gradient(180deg,#fff3bf,#fcc419);color:#5c4800;font-weight:900;font-size:clamp(16px,4vw,24px);padding:10px 18px;border-radius:999px;border:3px solid #e67700;box-shadow:0 7px 0 #c92a2a}
+@keyframes praisePop{0%{opacity:0;transform:translateX(-50%) scale(.5)}18%{opacity:1;transform:translateX(-50%) scale(1.06)}70%{opacity:1}100%{opacity:0;transform:translateX(-50%) translateY(-10px) scale(.95)}}
+.card.celeb{box-shadow:0 0 0 4px rgba(230,119,0,.55),0 16px 0 rgba(0,0,0,.2),0 28px 60px rgba(0,0,0,.4)}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.report-sum{margin:8px 0;padding:12px;border-radius:14px;background:linear-gradient(180deg,#e6fcf5,#c3fae8);border:2px solid #2f9e44;font-weight:900}
+.report-encourage{margin:6px 0 12px;font-weight:900;color:#087f5b;font-size:15px}
+.report-banner{margin:8px 0;padding:10px 12px;border-radius:12px;background:#fff3bf;border:2px solid #e67700;font-weight:900;color:#5c4800}
+.report-item{margin:8px 0;padding:10px 12px;border-radius:12px;background:#fffaf0;border:2px solid #e8d5a8;font-size:13.5px;line-height:1.45}
+.report-item.ok{border-color:#8ce99a;background:#ebfbee}
+.report-item.ng{border-color:#ffa8a8;background:#fff5f5}
+.report-note{font-size:12.5px;color:#6b5428;font-weight:700;margin:8px 0}
+.foot{text-align:center;font-size:12px;color:#f3e5c2;opacity:.85;padding:8px 16px 24px}
+.hidden{display:none!important}
+@media (prefers-reduced-motion:reduce){
+  .mascot,#fx,.praise{animation:none!important}
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>📜 中國歷史測驗 <span class="badge">中一 · 第一冊 · 選擇題考試</span></h1>
+  <p>根據香港教育圖書《樂學中國歷史》第一冊網上課本要點。測驗題偏理解分析，難度高過尋找答案練習。三種模式：按課題練習、單元考試、第一冊綜合考試。每題只答一次，交卷後先公佈標準答案。可選計時。離線可玩，唔寫姓名欄。</p>
+  <div class="topbar">
+    <span class="chip" id="hudMode">模式：未揀</span>
+    <span class="chip" id="hudQ">題庫 152 題</span>
+  </div>
+</header>
+<main id="home"></main>
+<p class="foot">離線可玩 · 唔寫姓名欄 · gameId=chi-hist-exam · 樂學中國歷史第一冊 · 測驗／考試版（同場景探索版分開）</p>
+<div id="panel" role="dialog" aria-modal="true"><div class="card" id="card"><div id="fx"></div>
+  <div class="panel-top" id="ptop">
+    <button type="button" id="btnBackSetup">返回</button>
+    <button type="button" id="btnLeaveExam" style="display:none">交卷結算</button>
+  </div>
+  <h2 id="ptitle"></h2>
+  <div class="subline" id="where"></div>
+  <div class="score-pill"><span id="score">分數 0</span><span id="scoreHint"></span></div>
+  <div id="qTimerHost"></div>
+  <div id="q"></div>
+  <div id="opts"></div>
+  <div id="why"></div>
+  <button type="button" class="go" id="next" style="display:none">下一題</button>
+</div></div>
+<script>
+/* P5_PLATFORM_HELPER_START */
+window.P5Platform = (function () {
+  var STORE_KEY = "p5EduPlatform_v1";
+  var PENDING_KEY = "p5EduPlatform_pendingIngest_v1";
+  var qs = new URLSearchParams(location.search || "");
+  var playerRaw = (qs.get("player") || "").trim();
+  var nameRaw = qs.get("name");
+  // URLSearchParams.get already percent-decodes; keep raw display text
+  var displayName = (nameRaw && String(nameRaw).trim()) ? String(nameRaw) : playerRaw;
+  var returnFile = (qs.get("return") || "小五遊戲平台.html").trim() || "小五遊戲平台.html";
+  var lastRec = null;
+
+  function normCode(s) {
+    return String(s || "").trim().replace(/\s+/g, " ").toLowerCase();
+  }
+  function rid() {
+    return "r" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+  }
+  function b64urlEncode(obj) {
+    var json = JSON.stringify(obj);
+    var bytes = new TextEncoder().encode(json);
+    var bin = "";
+    for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+  }
+  function loadStore() {
+    try {
+      var raw = localStorage.getItem(STORE_KEY);
+      if (!raw) return { version: 1, lastPlayerCode: "", players: {} };
+      var o = JSON.parse(raw);
+      if (!o || typeof o !== "object") return { version: 1, lastPlayerCode: "", players: {} };
+      o.version = 1;
+      o.players = o.players || {};
+      return o;
+    } catch (e) {
+      return { version: 1, lastPlayerCode: "", players: {} };
+    }
+  }
+  function saveStore(store) {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(store)); return true; }
+    catch (e) { return false; }
+  }
+  function ensurePlayer(store, codeTyped, display) {
+    var key = normCode(codeTyped);
+    if (!key) return null;
+    if (!store.players[key]) {
+      store.players[key] = {
+        code: codeTyped,
+        displayName: display || codeTyped,
+        createdAt: new Date().toISOString(),
+        lastPlayedAt: new Date().toISOString(),
+        records: []
+      };
+    } else {
+      if (display) store.players[key].displayName = display;
+      store.players[key].code = codeTyped || store.players[key].code;
+    }
+    return key;
+  }
+  function mergeRecord(store, key, rec) {
+    var p = store.players[key];
+    if (!p) return;
+    p.records = p.records || [];
+    var dup = false;
+    if (rec.id) {
+      for (var i = 0; i < p.records.length; i++) {
+        if (p.records[i] && p.records[i].id === rec.id) { dup = true; break; }
+      }
+    }
+    if (!dup) p.records.unshift(rec);
+    if (p.records.length > 200) p.records.length = 200;
+    p.lastPlayedAt = rec.at || new Date().toISOString();
+    store.lastPlayerCode = p.code || key;
+  }
+  function report(partial) {
+    if (!playerRaw) return null;
+    var rec = {
+      id: (partial && partial.id) || rid(),
+      gameId: (partial && partial.gameId) || "",
+      game: (partial && partial.game) || "",
+      mode: (partial && partial.mode) || "",
+      lesson: (partial && partial.lesson) || "",
+      detail: (partial && partial.detail) || "",
+      score: Number((partial && partial.score) != null ? partial.score : 0) || 0,
+      maxScore: Number((partial && partial.maxScore) != null ? partial.maxScore : 0) || 0,
+      pct: Number((partial && partial.pct) != null ? partial.pct : 0) || 0,
+      at: (partial && partial.at) || new Date().toISOString()
+    };
+    if (!rec.maxScore && rec.score) rec.maxScore = rec.score;
+    if (!rec.pct && rec.maxScore > 0) rec.pct = Math.round((rec.score / rec.maxScore) * 100);
+    lastRec = rec;
+    try {
+      var store = loadStore();
+      var key = ensurePlayer(store, playerRaw, displayName);
+      if (key) {
+        mergeRecord(store, key, rec);
+        saveStore(store);
+      }
+    } catch (e) {}
+    try {
+      var payload = { player: playerRaw, name: displayName, records: [rec] };
+      localStorage.setItem(PENDING_KEY, JSON.stringify(payload));
+    } catch (e2) {}
+    return rec;
+  }
+  function hubUrl(extra) {
+    var base = returnFile.indexOf("://") >= 0 || returnFile.charAt(0) === "/"
+      ? returnFile
+      : returnFile;
+    var q = new URLSearchParams();
+    if (playerRaw) q.set("player", playerRaw);
+    var ingestObj = null;
+    if (lastRec) {
+      ingestObj = { player: playerRaw, name: displayName, records: [lastRec] };
+    } else {
+      try {
+        var pend = localStorage.getItem(PENDING_KEY);
+        if (pend) ingestObj = JSON.parse(pend);
+      } catch (e) {}
+    }
+    if (ingestObj && ingestObj.records && ingestObj.records.length) {
+      q.set("ingest", b64urlEncode(ingestObj));
+    }
+    if (extra && typeof extra === "object") {
+      Object.keys(extra).forEach(function (k) {
+        if (extra[k] != null) q.set(k, String(extra[k]));
+      });
+    }
+    var qsStr = q.toString();
+    return qsStr ? (base + "?" + qsStr) : base;
+  }
+  function goHub(extra) {
+    location.href = hubUrl(extra);
+  }
+  function ensureStyles() {
+    if (document.getElementById("p5-plat-styles")) return;
+    var st = document.createElement("style");
+    st.id = "p5-plat-styles";
+    st.textContent =
+      ".p5-plat-badge{position:fixed;top:max(10px,env(safe-area-inset-top));right:max(10px,env(safe-area-inset-right));z-index:9999;background:rgba(255,248,238,.96);color:#1b2838;border:2px solid #e0a800;border-radius:999px;padding:8px 14px;font-weight:800;font-size:14px;box-shadow:0 4px 14px rgba(0,0,0,.2);max-width:min(70vw,280px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;pointer-events:none;font-family:inherit}" +
+      ".p5-plat-return{display:block;width:100%;text-align:center;font-size:17px;margin:10px 0;padding:14px 16px;min-height:44px;border-radius:12px;border:2px solid #c47800;background:linear-gradient(180deg,#fff3d6,#ffe7a8);cursor:pointer;touch-action:manipulation;font-family:inherit;font-weight:800;color:#5a3a00;box-shadow:0 4px 0 #d4a84a}" +
+      ".p5-plat-return:active{transform:translateY(2px);box-shadow:0 1px 0 #d4a84a}" +
+      ".p5-plat-return-inline{display:inline-flex;align-items:center;justify-content:center;margin:8px 0;padding:10px 14px;min-height:44px;border-radius:12px;border:2px solid #c47800;background:linear-gradient(180deg,#fff3d6,#ffe7a8);cursor:pointer;touch-action:manipulation;font-family:inherit;font-weight:800;color:#5a3a00;box-shadow:0 3px 0 #d4a84a;text-decoration:none}" +
+      ".p5-plat-homebar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0 12px}";
+    document.head.appendChild(st);
+  }
+  function showBadge() {
+    if (!playerRaw) return;
+    ensureStyles();
+    var el = document.getElementById("p5-plat-badge");
+    if (!el) {
+      el = document.createElement("div");
+      el.id = "p5-plat-badge";
+      el.className = "p5-plat-badge";
+      (document.body || document.documentElement).appendChild(el);
+    }
+    el.textContent = "玩家：" + (displayName || playerRaw);
+  }
+  function makeReturnBtn(cls) {
+    ensureStyles();
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = cls || "p5-plat-return";
+    b.textContent = "返回遊戲平台";
+    b.onclick = function () { goHub(); };
+    return b;
+  }
+  function appendReturn(parent, opts) {
+    if (!playerRaw || !parent) return null;
+    opts = opts || {};
+    if (parent.querySelector && parent.querySelector("[data-p5-plat-return]")) return null;
+    var b = makeReturnBtn(opts.className || "p5-plat-return");
+    b.setAttribute("data-p5-plat-return", "1");
+    if (opts.prepend && parent.firstChild) parent.insertBefore(b, parent.firstChild);
+    else parent.appendChild(b);
+    return b;
+  }
+  function appendHomeChrome(parent) {
+    if (!playerRaw || !parent) return;
+    ensureStyles();
+    if (parent.querySelector && parent.querySelector("[data-p5-plat-homebar]")) return;
+    var bar = document.createElement("div");
+    bar.className = "p5-plat-homebar";
+    bar.setAttribute("data-p5-plat-homebar", "1");
+    var tip = document.createElement("span");
+    tip.style.cssText = "font-weight:800;color:#5a3a00;background:#fff3d6;border:1px solid #e0a800;border-radius:999px;padding:6px 12px;font-size:14px";
+    tip.textContent = "玩家：" + (displayName || playerRaw);
+    bar.appendChild(tip);
+    var b = makeReturnBtn("p5-plat-return-inline");
+    b.setAttribute("data-p5-plat-return", "1");
+    bar.appendChild(b);
+    if (parent.firstChild) parent.insertBefore(bar, parent.firstChild);
+    else parent.appendChild(bar);
+  }
+  function mountChrome() {
+    if (!playerRaw) return;
+    showBadge();
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", mountChrome);
+  } else {
+    try { mountChrome(); } catch (e) {}
+  }
+
+  return {
+    player: playerRaw,
+    name: displayName,
+    returnFile: returnFile,
+    hasPlayer: !!playerRaw,
+    report: report,
+    hubUrl: hubUrl,
+    goHub: goHub,
+    showBadge: showBadge,
+    appendReturn: appendReturn,
+    appendHomeChrome: appendHomeChrome,
+    mountChrome: mountChrome,
+    normCode: normCode
+  };
+})();
+/* P5_PLATFORM_HELPER_END */
+
+const UNITS_META = [{"key":"u1","title":"單元一　史前至夏商周","subtitle":"中華民族的起源與早期國家的形成","emoji":"🏺","color":"#c92a2a","lessonCount":3,"qCount":40},{"key":"u2","title":"單元二　秦漢","subtitle":"統一國家的形成與中外文化交流","emoji":"🏯","color":"#e8590c","lessonCount":2,"qCount":31},{"key":"u3","title":"單元三　三國兩晉南北朝","subtitle":"長期的分裂與南北方的發展","emoji":"⚔️","color":"#5f3dc4","lessonCount":3,"qCount":37},{"key":"u4","title":"單元四　隋唐（樣本）","subtitle":"隋唐的統一、發展與開放的社會","emoji":"📜","color":"#c92a2a","lessonCount":5,"qCount":44}];
+const ISLANDS = [{"id":1,"unitKey":"u1","unit":"單元一　史前至夏商周　中華民族的起源與早期國家的形成","unitTitle":"單元一　史前至夏商周","unitSubtitle":"中華民族的起源與早期國家的形成","name":"課題一　中華民族與早期國家的起源","emoji":"🦴","color":"#c92a2a","optional":false,"questions":[{"kind":"mc","sec":"舊石器","src":"單元一 課題一 p.4","q":"舊石器時代先民主要使用哪種石器？","opts":["磨製石器","打製石器","鐵器","青銅器"],"ans":1},{"kind":"mc","sec":"新石器","src":"單元一 課題一 p.4","q":"約一萬年前進入新石器時代後，先民較明顯的進步是？","opts":["只會打製石器、不懂用火","磨製石器、陶器、農耕畜牧、聚族定居","已普遍使用鐵兵器","已有完備文字記錄全國"],"ans":1},{"kind":"mc","sec":"炎黃","src":"單元一 課題一 p.10","q":"黃帝在涿鹿打敗誰，成為共主？","opts":["炎帝","蚩尤","夏桀","商紂"],"ans":1},{"kind":"mc","sec":"多元一體","src":"單元一 課題一 p.4","q":"下列邊項最能說明課文所講「多元一體」？","opts":["中華文明只由單一中原源頭獨立產生","以中原為引領，各區域文明交流融合","各區域文明互不往來","只源於長江流域一地"],"ans":1},{"kind":"mc","sec":"比較","src":"單元一 課題一 p.4","q":"若要判斷某遺址屬新石器時代而非舊石器時代，下列哪一項證據最有力？","opts":["洞穴內發現打製石器碎片","發現磨製石器、陶器與定居聚落痕跡","附近有現代高速公路","出土大量鐵箭鏃"],"ans":1},{"kind":"mc","sec":"仰韶良渚","src":"單元一 課題一 p.4","q":"比較仰韶文化與良渚文化，下列哪一項最正確？","opts":["兩者都在珠江三角洲，以鐵器著名","仰韶在黃河中游以彩陶著名；良渚在長江流域，玉琮象徵神權","兩者都只用玉鉞象徵神權","良渚又稱彩陶文化，仰韶以玉琮著名"],"ans":1},{"kind":"mc","sec":"禪讓","src":"單元一 課題一 p.10","q":"「禪讓」與後來夏啟「家天下」最大分別在於？","opts":["禪讓用血緣嫡長，家天下用才德","禪讓以才德選繼承人；家天下改為世襲傳子","兩者都只抽籤決定","兩者都禁止宗室繼位"],"ans":1},{"kind":"mc","sec":"因果","src":"單元一 課題一 p.14","q":"夏朝滅亡，下列哪一項是較直接而合理的因果說明？","opts":["因為發明了甲骨文","夏桀暴政，商湯在鳴條打敗他","因為盤庚遷殷","因為平王東遷"],"ans":1},{"kind":"mc","sec":"排錯","src":"單元一 課題一 p.14","q":"關於商朝史實，下列哪一項說法有誤？","opts":["盤庚遷殷後又稱殷商","伊尹曾輔助湯","牧野之戰周武王敗商","商朝都城一直固定在洛邑不變"],"ans":3},{"kind":"mc","sec":"推論","src":"單元一 課題一 p.14","q":"西周滅亡的直接事件是申侯聯犬戎攻陷鎬京。這最能說明當時哪種問題？","opts":["周室已廢除封建","王室內部廢嫡立寵，引致外患乘虛而入","已經進入郡縣制","已用鐵騎統一全國"],"ans":1},{"kind":"mc","sec":"情境","src":"單元一 課題一 p.10–14","q":"若同學只靠「口耳傳說」而無文字遺物，課文會把該時期較接近稱為？","opts":["信史時代","傳疑時代","郡縣時代","科舉時代"],"ans":1},{"kind":"input","sec":"概念","src":"單元一 課題一 p.10","q":"以才德而非血緣選繼承人、堯舜禹相傳的制度，關鍵詞是？（兩個字）","ans":"禪讓","accept":["禪讓制","禪讓制度"]},{"kind":"input","sec":"概念","src":"單元一 課題一 p.14","q":"禹傳位給啟，禪讓改為世襲，這種「傳子不傳賢」局面常稱為？（三個字）","ans":"家天下","accept":["家天下","世襲家天下"]}]},{"id":2,"unitKey":"u1","unit":"單元一　史前至夏商周　中華民族的起源與早期國家的形成","unitTitle":"單元一　史前至夏商周","unitSubtitle":"中華民族的起源與早期國家的形成","name":"課題二　西周的封建","emoji":"🏰","color":"#e67700","optional":false,"questions":[{"kind":"mc","sec":"封建","src":"單元一 課題二 p.20","q":"西周「封建」最基本意思是？","opts":["只准平民耕田","封土建國，把土地人民封給宗室功臣","廢除所有諸侯","全國只設郡縣"],"ans":1},{"kind":"mc","sec":"宗法","src":"單元一 課題二 p.20","q":"嫡長子繼承、大宗小宗的制度稱為？","opts":["井田","宗法","連坐","察舉"],"ans":1},{"kind":"mc","sec":"作用","src":"單元一 課題二 p.20","q":"下列邊項最能說明西周封建制度的主要作用？","opts":["立即廢除禮樂","鞏固周室、擴大統治、促進民族融合","令天子失去所有軍隊","禁止諸侯朝貢"],"ans":1},{"kind":"mc","sec":"因果","src":"單元一 課題二 p.26","q":"封建本為穩定政局，後來卻助長春秋戰國亂局。下列哪一項最能解釋此「反效果」？","opts":["諸侯無土地軍隊","諸侯坐大、血緣疏遠、天子失勢","井田令農民全部獨立為王","周王廢除五等爵後立即統一"],"ans":1},{"kind":"mc","sec":"比較","src":"單元一 課題二 p.20–26","q":"比較西周初與東周初周室處境，下列哪一項最準確？","opts":["東遷後王畿擴大、威望更高","東遷後王畿縮小、威望下降，無力約束諸侯","東周完全沒有都城","東周已廢除所有宗室"],"ans":1},{"kind":"mc","sec":"排錯","src":"單元一 課題二 p.20","q":"關於封建與輔行制度，哪一項錯誤？","opts":["井田中公田歸貴族","禮樂用鼎簋佾數按身份","宗法以嫡長子為大宗核心","封建即等於秦的郡縣制"],"ans":3},{"kind":"mc","sec":"情境","src":"單元一 課題二 p.26","q":"若貴族僭用天子九鼎隨葬，課文現象較接近？","opts":["井田完善","禮崩樂壞","尊王攘夷成功","禪讓復興"],"ans":1},{"kind":"mc","sec":"推論","src":"單元一 課題二 p.26","q":"周桓王伐鄭被射傷，最能說明？","opts":["天子軍事威望仍絕對無敵","天子威望下跌，已難壓服強藩","鄭國已滅亡","封建剛開始推行"],"ans":1},{"kind":"mc","sec":"制度","src":"單元一 課題二 p.20","q":"諸侯須朝見、納貢、從征，這反映封建下諸侯對周室的？","opts":["完全獨立無關","義務與從屬關係","只做生意不用打仗","只負責科舉考試"],"ans":1},{"kind":"mc","sec":"應用","src":"單元一 課題二 p.20–26","q":"若要用一句話總結「封建與春秋戰國的關係」，較貼課本的是？","opts":["封建與亂局無關","封建強化周室，但諸侯坐大後反釀亂局","封建直接發明鐵器","封建令秦立刻統一"],"ans":1},{"kind":"input","sec":"概念","src":"單元一 課題二 p.20","q":"周王把土地人民封給宗室功臣，這種制度簡稱？（兩個字）","ans":"封建","accept":["封建制","封建制度","封土建國"]},{"kind":"input","sec":"概念","src":"單元一 課題二 p.26","q":"貴族僭越禮制、周室失序的局面，課文常用哪個四字詞形容？","ans":"禮崩樂壞","accept":["禮崩樂壞","禮壞樂崩"]}]},{"id":3,"unitKey":"u1","unit":"單元一　史前至夏商周　中華民族的起源與早期國家的形成","unitTitle":"單元一　史前至夏商周","unitSubtitle":"中華民族的起源與早期國家的形成","name":"課題三　春秋戰國時期的變局","emoji":"⚔️","color":"#9c36b5","optional":false,"questions":[{"kind":"mc","sec":"霸政","src":"單元一 課題三 p.30","q":"齊桓公提出「尊王攘夷」，主要目的較接近？","opts":["立刻廢周自立為帝","以尊周室、攘夷狄維持秩序並爭霸","全面恢復禪讓","禁止一切戰爭"],"ans":1},{"kind":"mc","sec":"比較","src":"單元一 課題三 p.30","q":"比較春秋與戰國戰爭特色，下列哪一項最正確？","opts":["春秋以滅國為主、戰國只爭霸且守禮","春秋多爭霸仍較守禮；戰國以滅國為目的，規模更大","兩者都只用戰車、無步兵","戰國禁止平民參軍"],"ans":1},{"kind":"mc","sec":"商鞅","src":"單元一 課題三 p.36","q":"商鞅「徙木立信」最能說明變法成功需要？","opts":["只靠嚴刑嚇怕百姓","先建立法令可信度，令民知賞罰必行","廢除一切賞罰","只重視音樂教化"],"ans":1},{"kind":"mc","sec":"因果","src":"單元一 課題三 p.36","q":"下列哪一項最能說明商鞅變法如何為秦統一奠基？","opts":["恢復井田與封建世襲","廢封建設縣、獎耕戰軍功，加強君權與國力","全面採用儒家仁政廢法律","遷都洛邑以示弱"],"ans":1},{"kind":"mc","sec":"學派","src":"單元一 課題三 p.38","q":"若國君最重視「法治、賞罰、權術威勢」，較接近哪家思想？","opts":["儒家","墨家","道家","法家"],"ans":3},{"kind":"mc","sec":"比較","src":"單元一 課題三 p.38","q":"儒家與墨家主張的明顯分別是？","opts":["儒重合差等仁孝教化；墨倡兼愛非攻節儉","儒主張兼愛非攻；墨主張仁政禮樂","兩者都反對一切教育","兩者都主張嚴刑峻法為唯一方法"],"ans":0},{"kind":"mc","sec":"排錯","src":"單元一 課題三 p.30–38","q":"下列關於春秋戰國的說法，哪一項有誤？","opts":["三家分晉標誌戰國時代開始","戰國七雄包括韓趙魏","楚王問鼎反映窺伺周天子權威","百家爭鳴只發生於西漢獨尊儒術之後"],"ans":3},{"kind":"mc","sec":"情境","src":"單元一 課題三 p.30","q":"晉被韓、趙、魏瓜分且獲周天子承認，這事件的歷史意義最接近？","opts":["西周封建剛開始","進入戰國、卿大夫取代舊格局","秦立刻統一六國","恢復禪讓"],"ans":1},{"kind":"mc","sec":"推論","src":"單元一 課題三 p.38","q":"百家爭鳴出現，下列哪一項不是合理背景？","opts":["封建崩潰、教育下移","諸侯求賢養士","經濟較富裕可養士","全國已統一且禁止私人講學"],"ans":3},{"kind":"mc","sec":"應用","src":"單元一 課題三 p.36–38","q":"若要富國強兵並加強中央集權，戰國國君較可能採用？","opts":["只講無為而治、放棄軍隊","類似商鞅變法：獎耕戰、廢世襲特權","全面恢復井田與封建","禁止一切改革"],"ans":1},{"kind":"mc","sec":"人物","src":"單元一 課題三 p.40","q":"勾踐「臥薪嘗膽」的史事最能用來說明？","opts":["即時放棄復國","以堅毅忍辱圖強，終滅吳爭霸","只用音樂感化敵人","從未戰敗過"],"ans":1},{"kind":"mc","sec":"暖身","src":"單元一 課題三 p.30","q":"課本所列春秋五霸不包括下列哪一位？","opts":["齊桓公","晉文公","楚莊王","秦始皇"],"ans":3},{"kind":"input","sec":"概念","src":"單元一 課題三 p.36","q":"商鞅為取信於民而賞金移木的故事，稱為？（四個字）","ans":"徙木立信","accept":["徙木立信"]},{"kind":"input","sec":"概念","src":"單元一 課題三 p.30","q":"諸侯以尊周室、攘夷狄號召維持秩序的政治形態，常稱？（兩個字）","ans":"霸政","accept":["霸政","霸業","尊王攘夷"]},{"kind":"input","sec":"學派","src":"單元一 課題三 p.38","q":"主張法治、賞罰的學派是？（兩個字）","ans":"法家","accept":["法家思想"]}]},{"id":4,"unitKey":"u2","unit":"單元二　秦漢　統一國家的形成與中外文化交流","unitTitle":"單元二　秦漢","unitSubtitle":"統一國家的形成與中外文化交流","name":"課題一　秦朝的統一、統治措施及衰亡","emoji":"🧱","color":"#868e96","optional":false,"questions":[{"kind":"mc","sec":"統一","src":"單元二 課題一 p.48","q":"秦能統一六國，下列哪一項不是課文合理因素？","opts":["關中易守難攻","商鞅變法奠基與遠交近攻等策略","民心厭戰","因為恢復了完整封建與井田"],"ans":3},{"kind":"mc","sec":"制度","src":"單元二 課題一 p.48","q":"廢封建、行郡縣，最直接作用是？","opts":["讓地方長官世襲獨立","皇帝任免地方官，加強中央集權","恢復諸侯五等爵","取消所有法律"],"ans":1},{"kind":"mc","sec":"比較","src":"單元二 課題一 p.48","q":"比較秦的皇帝制與周的封建，下列哪一項最能抓住重點？","opts":["兩者都讓地方永久世襲","秦以皇帝集權、地方行郡縣；周以封土建國為主","秦完全沒有中央官制","周已自稱始皇帝"],"ans":1},{"kind":"mc","sec":"措施","src":"單元二 課題一 p.48","q":"統一文字、貨幣、度量衡，下列邊項最能說明其作用？","opts":["只方便焚書","利於貿易往來與文化認同","令農業完全停頓","只為娛樂宮廷"],"ans":1},{"kind":"mc","sec":"排錯","src":"單元二 課題一 p.48–54","q":"關於秦朝速亡，哪一項說法最不合理？","opts":["稅役繁重、法令嚴苛","沙丘之變後政局敗壞","陳勝吳廣揭竿加速崩潰","速亡只因發明了絲綢之路"],"ans":3},{"kind":"mc","sec":"因果","src":"單元二 課題一 p.54","q":"陳勝、吳廣因「失期當斬」起事，最能說明秦速亡與哪項政策有關？","opts":["輕徭薄賦","法令嚴苛、民不堪命","獨尊儒術","和親匈奴成功"],"ans":1},{"kind":"mc","sec":"楚漢","src":"單元二 課題一 p.54","q":"劉邦約法三章、項羽燒殺自立，這對比最能說明楚漢勝負的哪一因素？","opts":["只靠地形","爭取民心與政治形象","兩者都廢除軍隊","只靠長城防守"],"ans":1},{"kind":"mc","sec":"推論","src":"單元二 課題一 p.48","q":"後世稱秦始皇「千古一帝」，主要因其？","opts":["統治超過二百年無亂","創皇帝制與大一統措施影響深遠","從未征伐四方","全面恢復封建"],"ans":1},{"kind":"mc","sec":"情境","src":"單元二 課題一 p.48","q":"若六國舊貴族想恢復封國世襲，他們最可能反對秦的哪項安排？","opts":["統一度量衡","郡縣制與中央任免","開靈渠","修馳道"],"ans":1},{"kind":"mc","sec":"香港","src":"單元二 課題一 p.48","q":"課文指秦設南海等郡，對香港地區意義較接近？","opts":["仍完全在中原王朝之外","正式納入中原王朝版圖（屬南海郡相關範圍）","已成為唐的蕃坊","已是北魏都城"],"ans":1},{"kind":"mc","sec":"暖身","src":"單元二 課題一 p.48","q":"秦統一六國大約在公元前哪一年？","opts":["771","403","221","184"],"ans":2},{"kind":"mc","sec":"應用","src":"單元二 課題一 p.48–54","q":"「中央集權有利統一，但嚴苛暴政易速亡」——用秦史驗證，下列哪組配對最恰當？","opts":["郡縣統一 vs 苛役酷法與民變","井田 vs 科舉","禪讓 vs 絲路","士族 vs 石窟"],"ans":0},{"kind":"input","sec":"概念","src":"單元二 課題一 p.48","q":"秦廢封建後在地方推行、長官由皇帝任免的制度稱為？（兩個字）","ans":"郡縣","accept":["郡縣制","郡縣制度"]},{"kind":"input","sec":"人物","src":"單元二 課題一 p.54","q":"楚漢相爭中烏江自刎的是？（兩個字）","ans":"項羽","accept":["西楚霸王項羽","項羽"]},{"kind":"input","sec":"事件","src":"單元二 課題一 p.54","q":"趙高、李斯矯詔立胡亥、迫扶蘇死的政變，史稱？（四個字）","ans":"沙丘之變","accept":["沙丘之變","沙丘政變"]}]},{"id":5,"unitKey":"u2","unit":"單元二　秦漢　統一國家的形成與中外文化交流","unitTitle":"單元二　秦漢","unitSubtitle":"統一國家的形成與中外文化交流","name":"課題二　兩漢的政治發展與中外文化交流","emoji":"🐪","color":"#d9480f","optional":false,"questions":[{"kind":"mc","sec":"文景","src":"單元二 課題二 p.62","q":"文景之治的施政取態，下列哪一項最貼切？","opts":["大興土木、連年征伐","輕徭薄賦、休養生息","全面焚書坑儒","廢除皇位世襲"],"ans":1},{"kind":"mc","sec":"武帝","src":"單元二 課題二 p.62","q":"董仲舒「罷黜百家，獨尊儒術」，最主要影響是？","opts":["立刻禁絕民間一切思想","儒學成官學／正統，仕途與意識形態趨於一統","恢復戰國封建","取消太學"],"ans":1},{"kind":"mc","sec":"比較","src":"單元二 課題二 p.62","q":"比較漢初與漢武帝時期，下列哪一項最正確？","opts":["漢初積極開拓、武帝完全無為","漢初偏無為休養；武帝文治武功並舉、國力外張亦耗財","兩者都禁止通西域","武帝廢除皇帝制度"],"ans":1},{"kind":"mc","sec":"因果","src":"單元二 課題二 p.70–72","q":"外戚與宦官交替專權，最能用來解釋東漢政局的哪種困境？","opts":["君權穩固無挑戰","君主多幼、太后用外戚，長大後聯宦官互鬥，政局敗壞","完全沒有黨錮","絲路因此開通"],"ans":1},{"kind":"mc","sec":"黃巾","src":"單元二 課題二 p.72","q":"黃巾起事後州牧割據、東漢名存實亡，這說明民變的長遠政治後果是？","opts":["中央立刻更強大","地方武力坐大，中央失控","儒學被全面廢除","匈奴自動歸附"],"ans":1},{"kind":"mc","sec":"絲路","src":"單元二 課題二 p.78","q":"下列邊項最能說明絲綢之路的歷史作用？","opts":["只運兵器、無文化交流","促進中西物產與文化交流（如佛教東傳）","令秦朝速亡","只存在於江南運河"],"ans":1},{"kind":"mc","sec":"排錯","src":"單元二 課題二 p.62–78","q":"下列哪一項有誤？","opts":["張騫鑿空西域有助開通陸路","王莽篡漢建「新」","班超曾經營西域","絲路起點是建康（南京）"],"ans":3},{"kind":"mc","sec":"推論","src":"單元二 課題二 p.62","q":"武帝拓土與征伐導致國庫虛耗，這提醒我們評價「武功」時要同時考慮？","opts":["只看疆域大小","財政負擔與民生代價","是否發明火藥","是否廢除儒學"],"ans":1},{"kind":"mc","sec":"情境","src":"單元二 課題二 p.70","q":"若太后家族長期掌內朝，課文會把這種勢力稱為？","opts":["士族清流","外戚","藩鎮","節度使"],"ans":1},{"kind":"mc","sec":"應用","src":"單元二 課題二 p.78","q":"若要證明「兩漢中外文化交流」，下列哪項證據最有力？","opts":["只比較夏商周都城","絲路物產往來、佛教傳入等","只背誦五霸名單","只默寫井田圖"],"ans":1},{"kind":"mc","sec":"暖身","src":"單元二 課題二 p.62","q":"向漢武帝提出「罷黜百家，獨尊儒術」的是？","opts":["張騫","董仲舒","班超","曹操"],"ans":1},{"kind":"mc","sec":"制度","src":"單元二 課題二 p.62","q":"察舉制舉孝廉，與後來只靠門第的選官相比，漢武原意較接近？","opts":["封閉平民出路","開放仕途、形成士人政府傾向","恢復世襲諸侯","取消儒學"],"ans":1},{"kind":"input","sec":"概念","src":"單元二 課題二 p.78","q":"因絲綢貿易得名、連接中西的陸路通道稱為？（四個字）","ans":"絲綢之路","accept":["絲綢之路","絲路"]},{"kind":"input","sec":"概念","src":"單元二 課題二 p.62","q":"漢初減輕賦役、與民休息的治世，史稱？（四個字）","ans":"文景之治","accept":["文景之治"]},{"kind":"input","sec":"人物","src":"單元二 課題二 p.78","q":"西漢兩度出使西域、被稱「鑿空」的使者是？（兩個字）","ans":"張騫","accept":["張騫"]},{"kind":"input","sec":"概念","src":"單元二 課題二 p.70","q":"太后或皇后家族掌握朝政，這種勢力稱為？（兩個字）","ans":"外戚","accept":["外戚專權","外戚"]}]},{"id":6,"unitKey":"u3","unit":"單元三　三國兩晉南北朝　長期的分裂與南北方的發展","unitTitle":"單元三　三國兩晉南北朝","unitSubtitle":"長期的分裂與南北方的發展","name":"課題一　魏晉南北朝的分裂與政權的更替","emoji":"🐉","color":"#7048e8","optional":false,"questions":[{"kind":"mc","sec":"官渡","src":"單元三 課題一 p.92","q":"官渡之戰曹操以少勝多，其後能統一北方，最關鍵意義是？","opts":["立刻滅蜀滅吳","奠定其挾天子、控北方的優勢","恢復西周封建","開通大運河"],"ans":1},{"kind":"mc","sec":"赤壁","src":"單元三 課題一 p.92","q":"赤壁之戰後三分之勢形成，下列哪項推論最合理？","opts":["曹操立刻統一全國","孫劉聯盟阻擋曹軍南下，南北對峙格局成形","蜀漢已滅亡","東晉已經建立"],"ans":1},{"kind":"mc","sec":"比較","src":"單元三 課題一 p.92","q":"課文提醒勿把《三國演義》當史實，這最能訓練哪種史學態度？","opts":["只相信小說情節","分辨史料與文學創作","完全不讀任何史書","以電影替代考古"],"ans":1},{"kind":"mc","sec":"西晉","src":"單元三 課題一 p.98","q":"八王之亂削弱西晉，與後來永嘉之亂的關係最接近？","opts":["無關","內亂削弱國力，胡人乘時起事","令秦統一六國","開創貞觀之治"],"ans":1},{"kind":"mc","sec":"因果","src":"單元三 課題一 p.98","q":"「王與馬，共天下」反映東晉建國初期？","opts":["皇權獨大、士族無權","皇權須依賴士族（如王導）支持","已廢除建康都城","恢復井田"],"ans":1},{"kind":"mc","sec":"淝水","src":"單元三 課題一 p.98","q":"淝水之戰前秦大敗，對東晉的直接影響是？","opts":["東晉立刻統一北方","得以繼續偏安","東晉滅亡","北魏統一全國"],"ans":1},{"kind":"mc","sec":"排錯","src":"單元三 課題一 p.92–98","q":"下列哪一項錯誤？","opts":["220 曹丕建魏、221 劉備建蜀","280 晉滅吳短暫統一","南朝是宋齊梁陳","北魏統一北方發生在赤壁當年"],"ans":3},{"kind":"mc","sec":"推論","src":"單元三 課題一 p.98","q":"武帝大封宗室又授軍政大權，後來釀八王之亂，說明制度設計上？","opts":["分封過度削弱中央、易致內鬥","分封一定帶來長治久安","宗室永遠不會爭權","應完全取消法律"],"ans":0},{"kind":"mc","sec":"情境","src":"單元三 課題一 p.92","q":"若要解釋為何孫權能長期保有江東，地理因素較重要的是？","opts":["沙漠屏障","長江天險","長城防守","大運河漕運"],"ans":1},{"kind":"mc","sec":"暖身","src":"單元三 課題一 p.92","q":"孫劉聯軍火燒曹軍的著名戰役是？","opts":["官渡之戰","赤壁之戰","淝水之戰","牧野之戰"],"ans":1},{"kind":"mc","sec":"應用","src":"單元三 課題一 p.92–98","q":"長期分裂下政權更替頻繁，對民生與統一的啟示是？","opts":["分裂一定比統一更好","戰亂耗損大，統一有利安定（為後來隋統一鋪墊）","應永遠諸侯林立","文字必須廢除"],"ans":1},{"kind":"input","sec":"戰役","src":"單元三 課題一 p.92","q":"孫劉聯軍火燒曹軍連環船的戰役是？（三個字／四個字）","ans":"赤壁之戰","accept":["赤壁之戰","赤壁"]},{"kind":"input","sec":"成語","src":"單元三 課題一 p.98","q":"「王與馬，共天下」的「王」主要指哪一士族勢力？（一個字／兩個字）","ans":"王","accept":["王","王氏","王導"]},{"kind":"input","sec":"事件","src":"單元三 課題一 p.98","q":"西晉末匈奴陷洛陽擄懷帝等亂事，史稱？（四個字）","ans":"永嘉之亂","accept":["永嘉之亂"]}]},{"id":7,"unitKey":"u3","unit":"單元三　三國兩晉南北朝　長期的分裂與南北方的發展","unitTitle":"單元三　三國兩晉南北朝","unitSubtitle":"長期的分裂與南北方的發展","name":"課題二　北方政局與江南地區的開發","emoji":"🌾","color":"#2f9e44","optional":false,"questions":[{"kind":"mc","sec":"五胡","src":"單元三 課題二 p.106","q":"胡人大量內徙後終致亂局，下列哪項因果鏈最貼課文？","opts":["內徙→西晉安穩→隋統一","西晉內亂＋胡人起事→永嘉之亂、西晉亡","內徙令絲路關閉","內徙令科舉出現"],"ans":1},{"kind":"mc","sec":"漢化","src":"單元三 課題二 p.108","q":"孝文帝遷都洛陽並推漢化，主要目的較接近？","opts":["遠離漢文化","鞏固政權、爭取漢人支持並利統一","恢復純游牧、禁漢語","廢除所有都城"],"ans":1},{"kind":"mc","sec":"比較","src":"單元三 課題二 p.108","q":"平城與洛陽作為都城，孝文帝選洛陽較看重？","opts":["更北以便防柔然而已","洛陽是漢文化中心，利推動漢化","洛陽完全沒有農業","平城已在長江以南"],"ans":1},{"kind":"mc","sec":"排錯","src":"單元三 課題二 p.108","q":"關於孝文帝漢化措施，哪一項不符課文？","opts":["說漢語、穿漢服","改漢姓、與漢士族通婚","禁南遷者歸葬北方","下令全國恢復打製石器為唯一工具"],"ans":3},{"kind":"mc","sec":"雙刃","src":"單元三 課題二 p.108","q":"漢化促進民族融合，但也帶來負面影響。下列哪項最貼課文？","opts":["完全沒有負面","加劇部分鮮卑貴族腐敗，埋下北魏分裂因素","令江南立刻沙漠化","令張騫未能出使"],"ans":1},{"kind":"mc","sec":"江南","src":"單元三 課題二 p.114","q":"人口南遷（衣冠南渡）對江南開發最重要的作用是？","opts":["令北方更繁榮唯一結果","帶來勞動力與技術，推動農業工商與城市","令建康廢棄","禁止種桑養蠶"],"ans":1},{"kind":"mc","sec":"因果","src":"單元三 課題二 p.114","q":"江南開發拉近南北經濟差距，長遠來看與後來哪一趨勢相關？","opts":["經濟重心逐漸南移","文字重新消失","完全停止海外貿易","恢復舊石器生活"],"ans":0},{"kind":"mc","sec":"情境","src":"單元三 課題二 p.114","q":"東晉設僑州僑郡，主要是為了？","opts":["消滅南遷人口","安置南遷士民、維繫籍貫與統治","遷都平城","開鑿永濟渠"],"ans":1},{"kind":"mc","sec":"應用","src":"單元三 課題二 p.106–114","q":"若問「北方融合＋南方開發」如何為隋唐盛世鋪路，較好答法是？","opts":["兩者無關","民族融合與南方物資基礎有助日後統一繁榮","只靠焚書","只靠黃巾"],"ans":1},{"kind":"mc","sec":"暖身","src":"單元三 課題二 p.106","q":"匈奴、鮮卑、羌、氐、羯合稱？","opts":["五霸","五胡","七雄","三省"],"ans":1},{"kind":"input","sec":"人物","src":"單元三 課題二 p.108","q":"推動遷都洛陽與大規模漢化的北魏皇帝是？","ans":"孝文帝","accept":["孝文帝","北魏孝文帝","拓跋宏"]},{"kind":"input","sec":"概念","src":"單元三 課題二 p.106","q":"匈奴、鮮卑、羌、氐、羯合稱？（兩個字）","ans":"五胡","accept":["五胡"]},{"kind":"input","sec":"概念","src":"單元三 課題二 p.114","q":"中原士民南遷、衣冠禮樂隨之而南，常稱？（四個字）","ans":"衣冠南渡","accept":["衣冠南渡","衣冠南渡"]}]},{"id":8,"unitKey":"u3","unit":"單元三　三國兩晉南北朝　長期的分裂與南北方的發展","unitTitle":"單元三　三國兩晉南北朝","unitSubtitle":"長期的分裂與南北方的發展","name":"課題三　魏晉南北朝的社會文化發展（選教）","emoji":"🗿","color":"#ae3ec9","optional":true,"questions":[{"kind":"mc","sec":"士族","src":"單元三 課題三 p.120","q":"士族能長期壟斷高官，與下列哪項制度關係最密切？","opts":["科舉殿試","九品中正制重家世","均田制","連坐法"],"ans":1},{"kind":"mc","sec":"比較","src":"單元三 課題三 p.120","q":"士族與庶族（寒門）的主要分別是？","opts":["士族無土地無官位","士族有財勢、世代為官；寒門出路受限","兩者完全平等通婚無阻","寒門專任三公"],"ans":1},{"kind":"mc","sec":"推論","src":"單元三 課題三 p.120","q":"「上品無寒門，下品無勢族」最能說明？","opts":["選官公平開放","門第壟斷仕途","人人可憑軍功封侯如商鞅時","已恢復禪讓"],"ans":1},{"kind":"mc","sec":"石窟","src":"單元三 課題三 p.124","q":"魏晉南北朝石窟興盛，合理背景不包括？","opts":["佛教傳入與君主提倡","戰亂中百姓求慰藉","西域僧侶開窟傳教","全國已禁止一切宗教信仰"],"ans":3},{"kind":"mc","sec":"交流","src":"單元三 課題三 p.124","q":"佛像由犍陀羅風格漸趨漢化，最能說明？","opts":["中外文化交流下外來宗教中國化","中國從未接觸外來文化","石窟只出現在珠江口","漢化等於廢除佛教"],"ans":0},{"kind":"mc","sec":"排錯","src":"單元三 課題三 p.120–124","q":"下列哪一項錯誤？","opts":["莫高窟在敦煌","四大石窟後列入世遺","士族重門第婚姻與族譜","石窟藝術與佛教無關"],"ans":3},{"kind":"mc","sec":"應用","src":"單元三 課題三 p.120–124","q":"若要設計一題「社會文化」，較好的高層次問法是？","opts":["只問莫高窟三個字怎寫","分析士族如何影響政治公平，或石窟如何見證中外交流","只問皇帝乳名","只問長城長度"],"ans":1},{"kind":"mc","sec":"暖身","src":"單元三 課題三 p.120","q":"世代為官、壟斷清流高官的世家稱為？","opts":["寒門","士族","藩鎮","宦官"],"ans":1},{"kind":"input","sec":"石窟","src":"單元三 課題三 p.124","q":"甘肅敦煌鳴沙山的著名石窟是？（三個字）","ans":"莫高窟","accept":["莫高窟","敦煌莫高窟"]},{"kind":"input","sec":"概念","src":"單元三 課題三 p.120","q":"世代為官的世家大族稱為？（兩個字）","ans":"士族","accept":["士族","世族"]}]},{"id":9,"unitKey":"u4","unit":"單元四　隋唐　隋唐的統一、發展與開放的社會","unitTitle":"單元四　隋唐（樣本）","unitSubtitle":"隋唐的統一、發展與開放的社會","name":"課題一　隋朝的統一與開皇之治","emoji":"👑","color":"#c92a2a","optional":false,"questions":[{"kind":"mc","sec":"統一","src":"單元四 課題一 p.138","q":"隋統一南北的歷史意義，下列哪項最全面？","opts":["只改年號無關分裂","結束長期分裂，利制度革新與民族融合，奠隋唐盛世","令西周封建復活","令黃巾再次成功"],"ans":1},{"kind":"mc","sec":"開皇","src":"單元四 課題一 p.140","q":"大索貌閱、輸籍法主要針對什麼問題？","opts":["邊防馬匹不足","戶口隱匿逃稅，要把民戶核實入籍以增稅收","禁止開倉","取消均田"],"ans":1},{"kind":"mc","sec":"比較","src":"單元四 課題一 p.140","q":"均田制與租庸調的關係，較正確的是？","opts":["授田後再徵租（糧）、調（布帛）、庸（力役）","只授田永不收稅","只收商業稅","廢除所有男丁義務"],"ans":0},{"kind":"mc","sec":"推論","src":"單元四 課題一 p.140","q":"開皇倉儲豐富，卻有「國富民貧」討論，提醒我們評價治世要？","opts":["只看國庫數字","同時看民生能否受惠、遇災能否開倉","只看宮室華麗","忽略戶口變化"],"ans":1},{"kind":"mc","sec":"排錯","src":"單元四 課題一 p.138–140","q":"下列哪一項有誤？","opts":["楊堅建隋，年號開皇","589 年滅陳統一","均田與倉窖為唐所沿用","隋統一發生在安史之亂之後"],"ans":3},{"kind":"mc","sec":"情境","src":"單元四 課題一 p.140","q":"若逃戶很多、帳籍不實，文帝會優先用哪類措施？","opts":["大索貌閱／輸籍","鼓勵藩鎮割據","恢復九品只看門第","禁止農業"],"ans":0},{"kind":"mc","sec":"暖身","src":"單元四 課題一 p.138","q":"隋文帝的治世年號／名稱常用？","opts":["貞觀","開皇","開元","建元"],"ans":1},{"kind":"input","sec":"年號","src":"單元四 課題一 p.138","q":"隋文帝年號、亦作治世名稱是？（兩個字）","ans":"開皇","accept":["開皇","開皇之治"]},{"kind":"input","sec":"概念","src":"單元四 課題一 p.140","q":"當面核對民戶年齡相貌以防虛報的措施稱為？（四個字）","ans":"大索貌閱","accept":["大索貌閱"]}]},{"id":10,"unitKey":"u4","unit":"單元四　隋唐　隋唐的統一、發展與開放的社會","unitTitle":"單元四　隋唐（樣本）","unitSubtitle":"隋唐的統一、發展與開放的社會","name":"課題二　隋代大運河的開通與作用","emoji":"🛶","color":"#1c7ed6","optional":false,"questions":[{"kind":"mc","sec":"背景","src":"單元四 課題二 p.146","q":"開鑿大運河的重要背景是？","opts":["關中／洛陽糧食不足，需漕運江南與下游糧","黃河已無農業","禁止南北往來","只為賞賜藩鎮"],"ans":0},{"kind":"mc","sec":"作用","src":"單元四 課題二 p.148","q":"下列邊項最能說明大運河的正面作用？","opts":["只方便煬帝玩樂、全無其他","鞏固統一、促南北物資文化交流、沿岸城市繁榮","令絲路完全取代海運","廢除所有稅收"],"ans":1},{"kind":"mc","sec":"雙刃","src":"單元四 課題二 p.148","q":"評價大運河時，課文亦強調代價。最合理的表述是？","opts":["毫無代價","徵發民力沉重，加劇隋末民怨","令唐太宗無法即位","令玄奘無法西行"],"ans":1},{"kind":"mc","sec":"地理","src":"單元四 課題二 p.147","q":"大運河以洛陽為中心，南北端較正確的是？","opts":["北至涿郡（今北京一帶），南抵餘杭（今杭州）","北至建康，南至平城","北至廣州，南至敦煌","只連接黃河與珠江"],"ans":0},{"kind":"mc","sec":"比較","src":"單元四 課題二 p.146–148","q":"文帝開廣通渠與煬帝大開運河，相同點較接近？","opts":["都與改善漕運／交通有關","都發生在唐朝","都禁止商旅","都只為攻打匈奴"],"ans":0},{"kind":"mc","sec":"排錯","src":"單元四 課題二 p.146–148","q":"下列哪一項錯誤？","opts":["永濟渠利征高麗運兵糧","江南河南抵餘杭","漕運指水運糧食物資","大運河開通於舊石器時代"],"ans":3},{"kind":"mc","sec":"應用","src":"單元四 課題二 p.148","q":"若問「基建如何既利統一又可能速亡」，大運河例子說明？","opts":["工程有利交通財政，但濫用民力會激起民變","工程一定令朝代永存","工程與政治無關","只應興建宮殿"],"ans":0},{"kind":"mc","sec":"暖身","src":"單元四 課題二 p.146","q":"把糧食物資經水路運到都城或軍事要地稱為？","opts":["和親","漕運","禪讓","察舉"],"ans":1},{"kind":"input","sec":"概念","src":"單元四 課題二 p.146","q":"把糧食物資經水路運到都城或要地稱為？（兩個字）","ans":"漕運","accept":["漕運"]}]},{"id":11,"unitKey":"u4","unit":"單元四　隋唐　隋唐的統一、發展與開放的社會","unitTitle":"單元四　隋唐（樣本）","unitSubtitle":"隋唐的統一、發展與開放的社會","name":"課題三　唐的建國與盛世","emoji":"🏛️","color":"#f59f00","optional":false,"questions":[{"kind":"mc","sec":"建國","src":"單元四 課題三 p.150","q":"唐能迅速立足關中並削平群雄，有利條件不包括？","opts":["關中糧足、易守難攻","李世民等軍功","隋末民變後群雄競起的時代背景","已發明火藥步槍統一全國"],"ans":3},{"kind":"mc","sec":"貞觀","src":"單元四 課題三 p.152","q":"三省六部互相制衡（中書草詔、門下審核、尚書執行），最能說明太宗重？","opts":["一人獨斷不議事","完善決策程序與集思廣益","廢除所有宰相","只靠宦官草詔"],"ans":1},{"kind":"mc","sec":"用人","src":"單元四 課題三 p.152","q":"太宗用魏徵（原為建成部下），最能體現？","opts":["只任用親族","用人唯才、不計前嫌","廢除諫官","禁止批評"],"ans":1},{"kind":"mc","sec":"比較","src":"單元四 課題三 p.152–160","q":"貞觀與開元同屬盛世，下列哪項共同點較合理？","opts":["都完全沒有邊患","都重視用人與改善民生，國力提升","都發生在隋文帝時期","都廢除科舉"],"ans":1},{"kind":"mc","sec":"武后","src":"單元四 課題三 p.160","q":"評價武則天，課文取向較接近？","opts":["只有苛政全無可取","有擴科舉、重農邊防等，亦有酷吏告密，功過並存","她從未稱帝","她開鑿了大運河"],"ans":1},{"kind":"mc","sec":"科舉","src":"單元四 課題三 p.152","q":"確立科舉對社會流動的意義是？","opts":["只准士族子孫做官","較重考試才能，影響後世並外傳東亞","恢復九品只看門第","取消所有學校"],"ans":1},{"kind":"mc","sec":"排錯","src":"單元四 課題三 p.150–160","q":"下列哪一項有誤？","opts":["玄武門之變後世民即位","各族尊太宗為天可汗","文成公主和親吐蕃","開元之治是隋煬帝的年號"],"ans":3},{"kind":"mc","sec":"暖身","src":"單元四 課題三 p.152","q":"唐太宗的治世稱為？","opts":["文景之治","貞觀之治","開皇之治","昭宣之治"],"ans":1},{"kind":"input","sec":"概念","src":"單元四 課題三 p.152","q":"唐太宗時期的治世名稱是？（四個字）","ans":"貞觀之治","accept":["貞觀之治","貞觀"]}]},{"id":12,"unitKey":"u4","unit":"單元四　隋唐　隋唐的統一、發展與開放的社會","unitTitle":"單元四　隋唐（樣本）","unitSubtitle":"隋唐的統一、發展與開放的社會","name":"課題四　安史之亂與唐的衰亡","emoji":"🔥","color":"#e03131","optional":false,"questions":[{"kind":"mc","sec":"背景","src":"單元四 課題四 p.162","q":"安史之亂爆發前，下列哪項結構問題最關鍵？","opts":["內輕外重：節度使權力過大","完全沒有邊防軍","已廢藩鎮","科舉剛取消"],"ans":0},{"kind":"mc","sec":"因果","src":"單元四 課題四 p.162–168","q":"亂後藩鎮割據、宦官干政加劇，說明安史之亂的長遠影響是？","opts":["唐立刻更中央集權","中央權威削弱，唐由盛轉衰的關鍵轉折","經濟重心北移完成","絲路首次開通"],"ans":1},{"kind":"mc","sec":"比較","src":"單元四 課題四 p.168","q":"唐後期三大問題（藩鎮、宦官、黨爭）與東漢戚宦亂政相比，相似處是？","opts":["都令中央政治敗壞、削弱統治","都發生在夏朝","都令禪讓恢復","都立刻統一全國"],"ans":0},{"kind":"mc","sec":"排錯","src":"單元四 課題四 p.162–173","q":"下列哪一項錯誤？","opts":["安祿山以討楊國忠為名起兵","馬嵬坡楊貴妃死","黃巢起事衝擊唐末","唐亡於赤壁之戰當年"],"ans":3},{"kind":"mc","sec":"推論","src":"單元四 課題四 p.162","q":"亂後黃河流域殘破、經濟文化重心加速南移，這與單元三江南開發的聯繫是？","opts":["無關","南方基礎再被突顯，重心南移趨勢加強","北方從此毫無農業可能","江南被徹底放棄"],"ans":1},{"kind":"mc","sec":"情境","src":"單元四 課題四 p.168","q":"若節度使父死子繼、截留賦稅，這屬於？","opts":["理想的中央集權","藩鎮割據問題","均田制成功","科舉公平"],"ans":1},{"kind":"mc","sec":"應用","src":"單元四 課題四 p.162–173","q":"「強盛之後若邊將過重、君主怠政，危機可迅速爆發」——最貼哪段唐史？","opts":["貞觀初年完全無隱憂","玄宗後期至安史之亂","開皇貌閱","文成公主和親本身"],"ans":1},{"kind":"mc","sec":"暖身","src":"單元四 課題四 p.162","q":"安史之亂起於安祿山、史思明，起兵地大致在？","opts":["嶺南番禺","范陽一帶","建康","敦煌莫高窟"],"ans":1},{"kind":"input","sec":"概念","src":"單元四 課題四 p.168","q":"唐中葉後地方軍閥擁兵自重、不服中央的局面稱為？（四個字）","ans":"藩鎮割據","accept":["藩鎮割據","藩鎮"]}]},{"id":13,"unitKey":"u4","unit":"單元四　隋唐　隋唐的統一、發展與開放的社會","unitTitle":"單元四　隋唐（樣本）","unitSubtitle":"隋唐的統一、發展與開放的社會","name":"課題五　開放的唐朝社會（選教）","emoji":"🌏","color":"#0c8599","optional":true,"questions":[{"kind":"mc","sec":"婦女","src":"單元四 課題五 p.174","q":"唐代婦女生活較開放，合理說明是？","opts":["完全不受胡風影響","受胡風影響，服飾社交較自由，法律上改嫁離婚空間較大","婦女禁止識字","只准深居不得騎馬"],"ans":1},{"kind":"mc","sec":"玄奘","src":"單元四 課題五 p.178","q":"玄奘西行最主要的文化意義是？","opts":["只為經商買馬","求法譯經，促進中印文化交流","開鑿永濟渠","建立藩鎮"],"ans":1},{"kind":"mc","sec":"比較","src":"單元四 課題五 p.178–182","q":"陸路絲路與海上交通並存，說明唐朝對外關係特色是？","opts":["閉關鎖國","陸海並進、對外開放交流","只准日本來華","禁止廣州貿易"],"ans":1},{"kind":"mc","sec":"香港","src":"單元四 課題五 p.182","q":"屯門在唐代海上交通的角色較接近？","opts":["唐都城","船舶停泊補給、與珠江口／今香港地區相關","北魏都城平城","只是內陸沙漠驛站"],"ans":1},{"kind":"mc","sec":"排錯","src":"單元四 課題五 p.174–182","q":"下列哪一項有誤？","opts":["廣州設蕃坊、有市舶使","遣唐使來唐學習","玄奘撰《大唐西域記》","唐代完全沒有中外文化交流"],"ans":3},{"kind":"mc","sec":"應用","src":"單元四 課題五 p.174–182","q":"若要論證「開放的唐朝社會」，較有力的證據組合是？","opts":["只列安史叛將姓名","婦女風尚、玄奘西行、海陸貿易與遣唐使等","只背誦五胡名稱","只默寫井田"],"ans":1},{"kind":"mc","sec":"暖身","src":"單元四 課題五 p.178","q":"西行求法、譯經並口述《大唐西域記》的高僧是？","opts":["班超","玄奘","安祿山","王導"],"ans":1},{"kind":"input","sec":"人物","src":"單元四 課題五 p.178","q":"西行十九年、譯經創法相宗、述《大唐西域記》的高僧是？（兩個字）","ans":"玄奘","accept":["玄奘","唐玄奘","三藏法師"]}]}];
+
+let view = "modes"; // modes | practiceUnits | practiceLessons | unitExamPick | setup | exam
+let viewUnit = null;
+let examMins = 0;
+let comboSample = 0; // 0=全部, 40, 50
+let paper = null; // {name, unit, unitKey, mode, questions:[...]}
+let examQi = 0, examScore = 0, examTotalPts = 0, examLog = [], examWrongs = [];
+let examMode = false, examSettling = false, locked = false, examTimedOut = false;
+let examItem = null, examCur = null;
+let examPaperTimer = null, examDeadline = 0, examAutoNextTimer = null;
+let sessionScore = 0;
+
+function esc(s){
+  return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+function examNorm(s){
+  return String(s||"").trim().toLowerCase().replace(/\s+/g,"").replace(/[，,。．\.！!？?：:；;「」『』""''（）()【】\[\]《》〈〉、]/g,"");
+}
+function examMatch(user, item){
+  const u = examNorm(user);
+  if(!u) return false;
+  const answers = [item.ans].concat(item.accept||[]).map(examNorm).filter(Boolean);
+  return answers.some(a => a === u || u.includes(a) || a.includes(u));
+}
+function formatMmSs(sec){
+  const m = Math.floor(sec/60), s = sec%60;
+  return (m<10?"0":"")+m+":"+(s<10?"0":"")+s;
+}
+function correctText(item){
+  if(!item) return "";
+  if(item.kind==="mc" && typeof item.ans==="number" && item.opts) return String(item.opts[item.ans]||"");
+  let t = String(item.ans||"");
+  if(item.accept && item.accept.length) t += "（亦可："+item.accept.join("／")+"）";
+  return t;
+}
+function allQuestions(){
+  const out=[];
+  ISLANDS.forEach(I=>{
+    I.questions.forEach((q,qi)=>{
+      out.push(Object.assign({}, q, {
+        _lessonId:I.id, _lesson:I.name, _unitKey:I.unitKey, _unitTitle:I.unitTitle, _qi:qi
+      }));
+    });
+  });
+  return out;
+}
+function unitQuestions(unitKey){
+  const out=[];
+  ISLANDS.filter(I=>I.unitKey===unitKey).forEach(I=>{
+    I.questions.forEach((q,qi)=>{
+      out.push(Object.assign({}, q, {
+        _lessonId:I.id, _lesson:I.name, _unitKey:I.unitKey, _unitTitle:I.unitTitle, _qi:qi
+      }));
+    });
+  });
+  return out;
+}
+function lessonQuestions(lessonId){
+  const I = ISLANDS.find(x=>x.id===lessonId);
+  if(!I) return [];
+  return I.questions.map((q,qi)=>Object.assign({}, q, {
+    _lessonId:I.id, _lesson:I.name, _unitKey:I.unitKey, _unitTitle:I.unitTitle, _qi:qi
+  }));
+}
+function shuffleInPlace(arr, rng){
+  for(let i=arr.length-1;i>0;i--){
+    const j = Math.floor(rng()* (i+1));
+    const t=arr[i]; arr[i]=arr[j]; arr[j]=t;
+  }
+  return arr;
+}
+function mulberry32(a){
+  return function(){
+    let t = a += 0x6D2B79F5;
+    t = Math.imul(t ^ t >>> 15, t | 1);
+    t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+function sampleQuestions(pool, n){
+  const seed = (Date.now() ^ (Math.random()*0x7fffffff)) >>> 0;
+  const rng = mulberry32(seed || 1);
+  const copy = pool.slice();
+  shuffleInPlace(copy, rng);
+  const picked = copy.slice(0, Math.min(n, copy.length));
+  return { questions: picked, seed: seed, totalPool: pool.length };
+}
+
+function setHud(modeLab){
+  const el=document.getElementById("hudMode");
+  if(el) el.textContent="模式："+modeLab;
+}
+
+function renderHome(){
+  const home=document.getElementById("home");
+  document.getElementById("panel").classList.remove("show");
+  if(view==="modes"){
+    setHud("未揀");
+    home.innerHTML=`
+      <div class="hero"><div class="mascot" aria-hidden="true">🏺</div>
+        <div><h2>歡迎嚟到中國歷史測驗</h2>
+        <p>揀一種模式開始。考試／單元考同課題練習一律<strong>每題只答一次</strong>，交卷後先睇標準答案。計時可選不計時間／10／15／20／30 分鐘。</p></div>
+      </div>
+      <div class="mode-grid">
+        <button type="button" class="mode-card" data-mode="practice" style="background:linear-gradient(165deg,#c92a2a,#7a1c1c)">
+          <span class="emo">📖</span><div class="ttl">按課題練習</div>
+          <div class="meta">揀單元 → 課題 → 該課題全部題目</div>
+        </button>
+        <button type="button" class="mode-card" data-mode="unit" style="background:linear-gradient(165deg,#e8590c,#9c3600)">
+          <span class="emo">🏯</span><div class="ttl">單元考試</div>
+          <div class="meta">一次過考該單元全部課題 · 標「考試」</div>
+        </button>
+        <button type="button" class="mode-card" data-mode="combo" style="background:linear-gradient(165deg,#5f3dc4,#364fc7)">
+          <span class="emo">📜</span><div class="ttl">第一冊綜合考試</div>
+          <div class="meta">全部 152 題，或隨機抽 40／50 題（每次洗牌並顯示題數）</div>
+        </button>
+      </div>`;
+    home.querySelectorAll("[data-mode]").forEach(b=>{
+      b.onclick=()=>{
+        const m=b.getAttribute("data-mode");
+        if(m==="practice"){ view="practiceUnits"; renderHome(); }
+        else if(m==="unit"){ view="unitExamPick"; renderHome(); }
+        else { view="comboSetup"; showComboSetup(); }
+      };
+    });
+  } else if(view==="practiceUnits" || view==="unitExamPick"){
+    const isExam = view==="unitExamPick";
+    setHud(isExam?"單元考試":"課題練習");
+    let html=`<div class="back-chip"><button type="button" id="btnBackModes">← 返回模式</button></div>
+      <div class="hero"><div class="mascot">${isExam?"📝":"📖"}</div>
+      <div><h2>${isExam?"揀單元開始考試":"揀單元，再揀課題練習"}</h2>
+      <p>${isExam?"一次過考該單元全部課題題目；每題只答一次，交卷後公佈標準答案。":"揀課題後，做該課題全部選擇／填充題。"}</p></div></div>
+      <div class="island-grid">`;
+    UNITS_META.forEach(U=>{
+      const n = unitQuestions(U.key).length;
+      html+=`<button type="button" class="unit-card" data-uk="${U.key}" style="background:linear-gradient(165deg,${U.color},#3d2914)">
+        <span class="emo">${U.emoji}</span><div class="ttl">${esc(U.title)}</div>
+        <div class="meta">${esc(U.subtitle)} · ${U.lessonCount} 課題 · ${n} 題</div>
+        ${isExam?'<span class="exam-tag">考試</span>':''}
+      </button>`;
+    });
+    html+="</div>";
+    home.innerHTML=html;
+    document.getElementById("btnBackModes").onclick=()=>{ view="modes"; renderHome(); };
+    home.querySelectorAll("[data-uk]").forEach(b=>{
+      b.onclick=()=>{
+        viewUnit=b.getAttribute("data-uk");
+        if(isExam){
+          const U=UNITS_META.find(x=>x.key===viewUnit);
+          const qs=unitQuestions(viewUnit);
+          paper={
+            name:(U?U.title:"單元")+" · 單元考試",
+            unit:U?(U.title+"　"+U.subtitle):"",
+            unitKey:viewUnit,
+            mode:"unit-exam",
+            questions:qs
+          };
+          showSetup();
+        } else {
+          view="practiceLessons";
+          renderHome();
+        }
+      };
+    });
+  } else if(view==="practiceLessons"){
+    setHud("課題練習");
+    const U=UNITS_META.find(x=>x.key===viewUnit);
+    const lessons=ISLANDS.filter(I=>I.unitKey===viewUnit);
+    let html=`<div class="back-chip"><button type="button" id="btnBackUnits">← 返回單元</button></div>
+      <div class="hero"><div class="mascot">${U?U.emoji:"📖"}</div>
+      <div><h2>${esc(U?U.title:"單元")}</h2>
+      <p>${esc(U?U.subtitle:"")} · 揀課題開始練習</p></div></div>
+      <div class="island-grid">`;
+    lessons.forEach(I=>{
+      html+=`<button type="button" class="lesson-btn" data-id="${I.id}" style="background:linear-gradient(165deg,${I.color},#3d2914)">
+        <span class="emo">${I.emoji}</span><div class="ttl">${esc(I.name)}</div>
+        <div class="meta">${I.questions.length} 題</div>
+        ${I.optional?'<span class="opt-tag">選教</span>':''}
+      </button>`;
+    });
+    html+="</div>";
+    home.innerHTML=html;
+    document.getElementById("btnBackUnits").onclick=()=>{ view="practiceUnits"; renderHome(); };
+    home.querySelectorAll("[data-id]").forEach(b=>{
+      b.onclick=()=>{
+        const id=+b.getAttribute("data-id");
+        const I=ISLANDS.find(x=>x.id===id);
+        paper={
+          name:I.name+" · 課題練習",
+          unit:I.unitTitle+"　"+I.unitSubtitle,
+          unitKey:I.unitKey,
+          mode:"lesson-practice",
+          questions:lessonQuestions(id)
+        };
+        showSetup();
+      };
+    });
+  }
+  try{ if(window.P5Platform && P5Platform.hasPlayer){ P5Platform.showBadge(); P5Platform.appendHomeChrome(home); } }catch(_e){}
+}
+
+function showComboSetup(){
+  setHud("綜合考試");
+  const home=document.getElementById("home");
+  document.getElementById("panel").classList.remove("show");
+  const poolN = allQuestions().length;
+  home.innerHTML=`<div class="back-chip"><button type="button" id="btnBackModes">← 返回模式</button></div>
+    <div class="hero"><div class="mascot">📜</div>
+    <div><h2>第一冊綜合考試</h2>
+    <p>題庫共 ${poolN} 題。可考全部，或隨機抽樣（每次洗牌，畫面顯示實際題數）。</p></div></div>`;
+  // reuse panel for timer + sample
+  paper={
+    name:"第一冊綜合考試",
+    unit:"樂學中國歷史第一冊 · 四單元",
+    unitKey:"combo",
+    mode:"combo-exam",
+    questions:[] // filled on start
+  };
+  showSetup(true);
+  document.getElementById("btnBackModes").onclick=()=>{ view="modes"; renderHome(); };
+}
+
+function clearExamPaperTimer(){
+  if(examPaperTimer){ clearInterval(examPaperTimer); examPaperTimer=null; }
+}
+function clearExamAutoNext(){
+  if(examAutoNextTimer){ clearTimeout(examAutoNextTimer); examAutoNextTimer=null; }
+}
+function renderExamTimerControls(parent){
+  const box=document.createElement("div"); box.className="timer-box";
+  box.innerHTML="<strong>⏱ 時間（可選）</strong>";
+  const row=document.createElement("div"); row.className="row";
+  [[0,"不計時間"],[10,"10 分鐘"],[15,"15 分鐘"],[20,"20 分鐘"],[30,"30 分鐘"]].forEach(([m,lab])=>{
+    const label=document.createElement("label");
+    if(examMins===m) label.classList.add("on");
+    const inp=document.createElement("input"); inp.type="radio"; inp.name="examMins"; inp.checked=examMins===m;
+    inp.onchange=()=>{ examMins=m; [...row.querySelectorAll("label")].forEach(l=>l.classList.remove("on")); label.classList.add("on"); };
+    label.appendChild(inp); label.appendChild(document.createTextNode(" "+lab));
+    row.appendChild(label);
+  });
+  box.appendChild(row);
+  parent.appendChild(box);
+}
+function renderSampleControls(parent){
+  const box=document.createElement("div"); box.className="sample-box";
+  box.innerHTML="<strong>🎲 題數</strong>";
+  const row=document.createElement("div"); row.className="row";
+  [[0,"全部題目"],[40,"隨機 40 題"],[50,"隨機 50 題"]].forEach(([n,lab])=>{
+    const label=document.createElement("label");
+    if(comboSample===n) label.classList.add("on");
+    const inp=document.createElement("input"); inp.type="radio"; inp.name="comboSample"; inp.checked=comboSample===n;
+    inp.onchange=()=>{ comboSample=n; [...row.querySelectorAll("label")].forEach(l=>l.classList.remove("on")); label.classList.add("on"); updateSetupCounts(); };
+    label.appendChild(inp); label.appendChild(document.createTextNode(" "+lab));
+    row.appendChild(label);
+  });
+  box.appendChild(row);
+  parent.appendChild(box);
+}
+function updateSetupCounts(){
+  if(!paper || paper.mode!=="combo-exam") return;
+  const pool = allQuestions();
+  const n = comboSample>0 ? Math.min(comboSample, pool.length) : pool.length;
+  const nMc = pool.filter(q=>q.kind==="mc").length;
+  const nIn = pool.filter(q=>q.kind==="input").length;
+  const hint = document.getElementById("q");
+  if(hint){
+    hint.innerHTML = (comboSample>0
+      ? ("將從題庫 <strong>"+pool.length+"</strong> 題中<strong>隨機抽 "+n+" 題</strong>（每次洗牌）。題庫含選擇約 "+nMc+"／填充約 "+nIn+"。")
+      : ("將考<strong>全部 "+n+" 題</strong>（選擇 "+nMc+"／填充 "+nIn+"）。"))
+      + "<br>規則：每題只答一次；錯即 0 分，不可補答；交卷前不顯示正確答案。"
+      + "<br>選擇題對滿分；填充題對滿分（接受 accept 列表同義答）。"
+      + "<br>開計時則時間到會強制結算。";
+  }
+}
+function startExamPaperTimer(){
+  clearExamPaperTimer();
+  examTimedOut=false;
+  const host=document.getElementById("qTimerHost");
+  if(!examMins || examMins<=0){
+    if(host) host.innerHTML='<div class="q-timer"><span class="secs">不計時間</span></div>';
+    return;
+  }
+  examDeadline=Date.now()+examMins*60*1000;
+  const total=examMins*60;
+  const paint=()=>{
+    const left=Math.max(0, Math.ceil((examDeadline-Date.now())/1000));
+    if(host){
+      const warn=left<=60?" warn":"";
+      host.innerHTML='<div class="q-timer'+warn+'"><span class="secs">'+formatMmSs(left)+'</span><div class="bar"><i style="width:'+(left/total*100)+'%"></i></div><span>整卷剩餘</span></div>';
+    }
+    if(left<=0){
+      clearExamPaperTimer();
+      examTimedOut=true;
+      settleExam(true);
+    }
+  };
+  paint();
+  examPaperTimer=setInterval(paint, 250);
+}
+
+function showSetup(isCombo){
+  clearExamPaperTimer(); clearExamAutoNext();
+  examMode=false; examSettling=false; locked=false;
+  document.getElementById("panel").classList.add("show");
+  document.getElementById("btnLeaveExam").style.display="none";
+  document.getElementById("btnBackSetup").style.display="inline-block";
+  document.getElementById("btnBackSetup").onclick=()=>{
+    document.getElementById("panel").classList.remove("show");
+    if(paper && paper.mode==="combo-exam"){ view="modes"; }
+    else if(paper && paper.mode==="unit-exam"){ view="unitExamPick"; }
+    else if(paper && paper.mode==="lesson-practice"){ view="practiceLessons"; }
+    else view="modes";
+    renderHome();
+  };
+  const qsPreview = (paper.mode==="combo-exam") ? allQuestions() : paper.questions;
+  const n = paper.mode==="combo-exam"
+    ? (comboSample>0?Math.min(comboSample,qsPreview.length):qsPreview.length)
+    : qsPreview.length;
+  const nMc = qsPreview.filter(q=>q.kind==="mc").length;
+  const nIn = qsPreview.filter(q=>q.kind==="input").length;
+  document.getElementById("ptitle").textContent=paper.name+" · 準備";
+  document.getElementById("where").textContent=paper.unit+(paper.mode==="unit-exam"||paper.mode==="combo-exam"?" · 考試":" · 練習");
+  document.getElementById("score").textContent="分數 "+sessionScore;
+  document.getElementById("scoreHint").textContent="選好時間後按「開始」。";
+  document.getElementById("why").textContent="";
+  document.getElementById("next").style.display="none";
+  document.getElementById("qTimerHost").innerHTML="";
+  const modeRule = (paper.mode==="lesson-practice")
+    ? "【課題練習】每題只答一次；交卷後先公佈標準答案（同考試風格）。"
+    : "【考試】每題只答一次；交卷前不顯示正確答案；交卷後公佈標準答案。";
+  let qHtml = '<div class="rule-box">'+modeRule+"</div>";
+  if(paper.mode==="combo-exam"){
+    qHtml += '<div id="comboCountHost"></div>';
+  } else {
+    qHtml += "共 <strong>"+n+"</strong> 題（選擇 "+nMc+"／填充 "+nIn+"），每題 1 分，滿分 "+n+"。<br>選擇題對滿分；填充可接受同義答案（accept）。<br>可選不計時間，或 10／15／20／30 分鐘；開計時則時間到會強制結算。";
+  }
+  document.getElementById("q").innerHTML=qHtml;
+  const box=document.getElementById("opts"); box.innerHTML="";
+  if(paper.mode==="combo-exam") renderSampleControls(box);
+  renderExamTimerControls(box);
+  if(paper.mode==="combo-exam") updateSetupCounts();
+  function add(label, fn, cls){
+    const b=document.createElement("button");
+    b.className="opt"+(cls?" "+cls:""); b.type="button"; b.textContent=label; b.onclick=fn;
+    box.appendChild(b);
+  }
+  add(paper.mode==="lesson-practice"?"📝 開始練習":"📝 開始考試", ()=>startExam(), "exam-start");
+  add("返回", ()=>document.getElementById("btnBackSetup").click());
+}
+
+function startExam(){
+  if(paper.mode==="combo-exam"){
+    const pool=allQuestions();
+    if(comboSample>0){
+      const samp=sampleQuestions(pool, comboSample);
+      paper.questions=samp.questions;
+      paper._seed=samp.seed;
+      paper.name="第一冊綜合考試（隨機 "+paper.questions.length+" 題）";
+    } else {
+      paper.questions=pool.slice();
+      paper._seed=null;
+      paper.name="第一冊綜合考試（全部 "+paper.questions.length+" 題）";
+    }
+  }
+  examMode=true; examSettling=false; examQi=0; examScore=0; examWrongs=[]; examCur=null; examTimedOut=false; examItem=null;
+  examLog=[]; clearExamAutoNext();
+  examTotalPts=paper.questions.length; // 1pt each
+  locked=false;
+  document.getElementById("btnLeaveExam").style.display="inline-block";
+  document.getElementById("btnBackSetup").style.display="none";
+  startExamPaperTimer();
+  showExamQ();
+}
+
+function mixExamMc(item){
+  const labels=item.opts.slice();
+  const order=labels.map((_,i)=>i);
+  for(let i=order.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    const tmp=order[i]; order[i]=order[j]; order[j]=tmp;
+  }
+  return {
+    kind:"mc", sec:item.sec, src:item.src, q:item.q,
+    labels:order.map(i=>labels[i]), correct:order.indexOf(item.ans),
+    ans:item.ans, opts:item.opts, accept:item.accept
+  };
+}
+
+function celebrate(){
+  const card=document.getElementById("card");
+  if(card){ card.classList.remove("celeb"); void card.offsetWidth; card.classList.add("celeb"); }
+  document.querySelectorAll(".praise").forEach(el=>el.remove());
+  const praises=[
+    {e:"🎉",t:"太棒了！"},{e:"🌟",t:"答對啦！"},{e:"👏",t:"超厲害！"},
+    {e:"🏆",t:"讚！繼續加油！"},{e:"✨",t:"耶！答對了！"},{e:"📜",t:"史識好準！"}
+  ];
+  const pick=praises[Math.floor(Math.random()*praises.length)];
+  const banner=document.createElement("div");
+  banner.className="praise";
+  banner.innerHTML='<span class="emoji">'+pick.e+'</span><span class="text">'+pick.t+'</span>';
+  if(card) card.appendChild(banner);
+  const fx=document.getElementById("fx");
+  if(fx){
+    fx.innerHTML="";
+    const bits=["⭐","✨","🎊","🌟","📜","🏺","🪙","👏"];
+    for(let n=0;n<18;n++){
+      const s=document.createElement("span"); s.className="bit";
+      s.textContent=bits[n%bits.length];
+      s.style.left=(4+Math.random()*92)+"%";
+      s.style.animationDelay=(Math.random()*0.4)+"s";
+      s.style.fontSize=(16+Math.random()*18)+"px";
+      fx.appendChild(s);
+    }
+    setTimeout(()=>{ if(fx) fx.innerHTML=""; }, 1600);
+  }
+  setTimeout(()=>{ banner.remove(); if(card) card.classList.remove("celeb"); }, 1900);
+}
+
+function showExamQ(){
+  locked=false; clearExamAutoNext();
+  examItem=paper.questions[examQi];
+  document.getElementById("ptitle").textContent=paper.name+"　"+(examQi+1)+"/"+paper.questions.length;
+  document.getElementById("where").textContent=paper.unit+" · 作答中"+(examItem._lesson?" · "+examItem._lesson:"");
+  const kindLab=examItem.kind==="input"?"填充題":"選擇題";
+  document.getElementById("scoreHint").textContent="【"+(examItem.sec||"")+" · "+kindLab+"】只答一次 · 累計 "+examScore+" / "+examTotalPts;
+  let qHtml='<div class="task-card"><div class="mission">';
+  if(examItem.src) qHtml+='<span class="src-tag">'+esc(examItem.src)+'</span>';
+  if(examItem.sec) qHtml+='<span class="sec-tag">'+esc(examItem.sec)+'</span>';
+  qHtml+='</div><p class="q">'+esc(examItem.q)+'</p></div>';
+  document.getElementById("q").innerHTML=qHtml;
+  document.getElementById("why").textContent="";
+  document.getElementById("next").style.display="none";
+  const box=document.getElementById("opts"); box.innerHTML="";
+  const card=document.getElementById("card"); if(card) card.scrollTop=0;
+  if(examItem.kind==="mc"){
+    examCur=mixExamMc(examItem);
+    examCur.labels.forEach((label,idx)=>{
+      const b=document.createElement("button");
+      b.className="opt"; b.type="button"; b.textContent=label;
+      b.onclick=()=>answerExamMc(idx,b);
+      box.appendChild(b);
+    });
+  } else {
+    examCur={kind:"input", sec:examItem.sec, q:examItem.q, ans:examItem.ans, accept:examItem.accept};
+    const row=document.createElement("div"); row.className="input-row";
+    const inp=document.createElement("input");
+    inp.type="text"; inp.id="examAns"; inp.placeholder="輸入答案（繁體）"; inp.autocomplete="off";
+    inp.setAttribute("enterkeyhint","done");
+    row.appendChild(inp);
+    box.appendChild(row);
+    const go=document.createElement("button");
+    go.type="button"; go.className="go"; go.textContent="提交答案";
+    go.onclick=()=>answerExamInput();
+    box.appendChild(go);
+    inp.addEventListener("keydown", e=>{ if(e.key==="Enter"){ e.preventDefault(); answerExamInput(); } });
+    setTimeout(()=>{ try{ inp.focus(); }catch(_e){} }, 50);
+  }
+}
+
+function examPushLog(entry){ examLog.push(entry); }
+function examGoNextOrSettle(){
+  clearExamAutoNext();
+  const lastQ=examQi+1>=paper.questions.length;
+  if(!lastQ){ examQi++; showExamQ(); return; }
+  settleExam(false);
+}
+function examAfterAnswer(ok, detail, userAns){
+  locked=true;
+  const lastQ=examQi+1>=paper.questions.length;
+  const ptsGot = ok ? 1 : 0;
+  examPushLog({
+    no:examQi+1, sec:examItem.sec||"", kind:examItem.kind, q:examItem.q,
+    src:examItem.src||"", lesson:examItem._lesson||"",
+    ok:!!ok, ptsMax:1, ptsGot:ptsGot, detail:detail||"",
+    correct:correctText(examItem), userAns:userAns||""
+  });
+  if(ok){
+    examScore+=ptsGot; sessionScore+=ptsGot;
+    document.getElementById("score").textContent="分數 "+sessionScore;
+    document.getElementById("why").textContent="答對！得 1 分。累計 "+examScore+" / "+examTotalPts+"。";
+    celebrate();
+  } else {
+    examWrongs.push("第"+(examQi+1)+"題");
+    document.getElementById("why").textContent="答錯，0 分。不可補答。"+(detail?" "+detail:"");
+    const card=document.getElementById("card");
+    if(card){ card.style.animation="shake .4s ease"; setTimeout(()=>card.style.animation="",450); }
+  }
+  const nxt=document.getElementById("next");
+  nxt.style.display="block";
+  nxt.textContent=lastQ?"交卷結算":"下一題";
+  nxt.onclick=()=>examGoNextOrSettle();
+  examAutoNextTimer=setTimeout(()=>{ if(locked) examGoNextOrSettle(); }, ok?1600:1400);
+}
+function answerExamMc(idx,btn){
+  if(locked || !examMode) return;
+  document.querySelectorAll("#opts .opt").forEach(b=>{ b.disabled=true; b.classList.remove("picked"); });
+  btn.classList.add("picked");
+  const ok=idx===examCur.correct;
+  if(ok) btn.classList.add("good"); else btn.classList.add("bad");
+  examAfterAnswer(ok, ok?"":("你選了：「"+examCur.labels[idx]+"」"), examCur.labels[idx]);
+}
+function answerExamInput(){
+  if(locked || !examMode) return;
+  const input=document.getElementById("examAns");
+  const raw=input?input.value:"";
+  if(!examNorm(raw)){
+    document.getElementById("why").textContent="請先輸入答案。";
+    return;
+  }
+  if(input) input.disabled=true;
+  document.querySelectorAll("#opts .go").forEach(b=>b.disabled=true);
+  const ok=examMatch(raw, examItem);
+  examAfterAnswer(ok, "你的答案：「"+raw.trim()+"」", raw.trim());
+}
+
+function settleExam(fromTimeout){
+  if(examSettling) return;
+  examSettling=true;
+  clearExamPaperTimer(); clearExamAutoNext();
+  const wasMode=examMode;
+  examMode=false; locked=true;
+  document.getElementById("btnLeaveExam").style.display="none";
+  document.getElementById("btnBackSetup").style.display="inline-block";
+  document.getElementById("qTimerHost").innerHTML="";
+  if(fromTimeout || wasMode){
+    for(let i=examLog.length;i<paper.questions.length;i++){
+      const qq=paper.questions[i];
+      examPushLog({no:i+1, sec:qq.sec||"", kind:qq.kind, q:qq.q, src:qq.src||"", lesson:qq._lesson||"",
+        ok:false, ptsMax:1, ptsGot:0, detail:"未作答", correct:correctText(qq), userAns:""});
+    }
+  }
+  const pct=examTotalPts? Math.round(examScore/examTotalPts*100):0;
+  const correctN=examLog.filter(e=>e.ok).length;
+  const totalN=examLog.length||paper.questions.length;
+  document.getElementById("ptitle").textContent=paper.name+" · 結算";
+  document.getElementById("where").textContent=paper.unit+" · 已完成";
+  document.getElementById("scoreHint").textContent="可向下捲動睇標準答案同明細";
+
+  let encourage;
+  if(pct>=90) encourage="🌟 優秀！幾乎滿分，史識好穩！";
+  else if(pct>=75) encourage="👏 很好！繼續保持，你好準！";
+  else if(pct>=60) encourage="💪 合格有餘，再練錯題會更穩！";
+  else if(pct>=40) encourage="🌈 已有基礎，對住標準答案複習就會進步！";
+  else encourage="🌱 別灰心，先翻課文重點，再來挑戰！";
+
+  let html="";
+  if(fromTimeout) html+='<div class="report-banner">⏰ 時間到，已強制結算。</div>';
+  if(paper._seed!=null) html+='<div class="report-banner">🎲 今次隨機抽樣 seed：'+paper._seed+' · 共 '+totalN+' 題</div>';
+  html+='<div class="report-sum"><strong>總分 '+examScore+' / '+examTotalPts+'</strong>（'+pct+'%）· 正確 '+correctN+' / '+totalN+'</div>';
+  html+='<div class="report-encourage">'+encourage+'</div>';
+  html+='<p class="report-note">交卷後顯示全部正確答案，方便複習。可向下捲動。</p>';
+  html+='<div><strong>📖 標準答案一覽</strong></div>';
+  examLog.forEach(e=>{
+    html+='<div class="report-item '+(e.ok?"ok":"ng")+'"><strong>第'+e.no+'題</strong>'
+      +(e.sec?' 【'+esc(e.sec)+'】':'')
+      +(e.lesson?' · '+esc(e.lesson):'')
+      +'<br>'+esc((e.q||"").length>48?(e.q.slice(0,48)+"…"):(e.q||""))
+      +'<br>正解：<strong>'+esc(e.correct||"—")+'</strong>'
+      +(e.ok?"":('　你的答案：'+esc(e.userAns||e.detail||"未作答")))
+      +'　'+(e.ok?"✓":"✗")
+      +'</div>';
+  });
+
+  document.getElementById("q").innerHTML=html;
+  document.getElementById("why").textContent="";
+  const box=document.getElementById("opts"); box.innerHTML="";
+  const nxt=document.getElementById("next"); nxt.style.display="none"; nxt.onclick=null;
+  if(pct>=75) celebrate();
+  const card=document.getElementById("card"); if(card) card.scrollTop=0;
+  function add(label, fn){
+    const b=document.createElement("button");
+    b.className="opt"; b.type="button"; b.textContent=label; b.onclick=fn;
+    box.appendChild(b);
+  }
+  add("再考一次", ()=>{
+    if(paper.mode==="combo-exam") showComboSetup();
+    else showSetup();
+  });
+  add("返回主頁", ()=>{ view="modes"; renderHome(); });
+  try{
+    if(window.P5Platform && P5Platform.hasPlayer){
+      P5Platform.report({
+        gameId:"chi-hist-exam", game:"中國歷史測驗", mode:paper.mode||"exam",
+        lesson:paper?paper.name:"", detail:(paper&&paper.unit)||"測驗",
+        score:examScore, maxScore:examTotalPts, pct:pct
+      });
+      P5Platform.appendReturn(box);
+    }
+  }catch(_e){}
+}
+
+document.getElementById("btnLeaveExam").onclick=()=>{
+  if(!examMode) return;
+  if(confirm("測驗進行中。按「確定」交卷結算；按「取消」繼續作答。")) settleExam(false);
+};
+
+renderHome();
+</script>
+</body>
+</html>
